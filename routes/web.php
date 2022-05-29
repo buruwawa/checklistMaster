@@ -138,11 +138,11 @@ Route::resource('role-register', rolesController::class)->middleware(['role:Admi
   Route::get('recovery-role',[rolesController::class,'recovery'])->name('recovery-role');
 
 // Site ontroller
-       Route::resource('sites', siteController::class)->middleware(['role:Admin|Store']);
+       Route::resource('sites',siteController::class)->middleware(['role:Admin|Store']);
        Route::get('delete-site/{id}',[siteController::class,'edit'])->name('delete-site');
        Route::get('recovery-site',[siteController::class,'recovery'])->name('recovery-site');
        Route::get('update-site/{id}',[siteController::class,'recoveryUpdate'])->name('update-site');
-    //Route::resource('sites',siteController::class);
+    //Route::resource('accommodations',siteController::class);
     // End of TS Wawa
 
 Route::resource('companyvalue',companyValueController::class);

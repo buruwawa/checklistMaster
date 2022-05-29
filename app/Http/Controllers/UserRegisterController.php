@@ -8,6 +8,7 @@ use Dotenv\Validator;
 use App\Models\department;
 use App\Models\metadata;
 use App\Models\datatype;
+use App\Models\site;
 use DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -31,12 +32,16 @@ class UserRegisterController extends Controller
    // dd($users);
         //return view('admin.settings.metadata.metadata',compact('metadatas','datatypes'));
 
- $users = DB::select('select u.id,u.name,u.department,d.department_name,u.email,u.status from users u,departments d where u.department=d.id and u.status="Active"');
-//dd($users);
+  $users = DB::select("select u.id,u.name,u.site_id,u.department_id,d.department_name,u.email,u.status from users u,departments d where u.department_id=d.id and u.status='Active'");
+
+  // $users = user::where('status','Active')
+  // ->where('name','!=',"")
+  // ->get();
+ dd($users);
 
 $departments=department::get();
-
- return view('auth.register',compact('departments','users','datatypes'));
+$sites=site::get();
+ return view('auth.register',compact('departments','users','datatypes','sites'));
     }
 
     /**
@@ -75,7 +80,8 @@ else
 {
        $indicator = user::UpdateOrCreate([
         'name'=>request('name'),
-        'department'=>request('department'),
+        'department_id'=>request('department'),
+        'site_id'=>request('site'),
          'email'=>request('email'),
          'password'=>Hash::make(request('password')),
          'status'=>'Active',
@@ -127,7 +133,8 @@ else
         if($user){
            $user->update([
             'name'=>request('full_name'),
-             'department'=>request('department'),
+             'department_id'=>request('department'),
+             'site_id'=>request('site'),
               'email'=>request('email'),
              'user_id'=>auth()->id()
            ]);
@@ -173,7 +180,7 @@ else
     {
        //$user = user::where('status','Inactive')->get();
          // $datatypes = datatype::get();
-         $users = DB::select('select u.id,u.name,u.department,d.department_name,u.email,u.status from users u,departments d where u.department=d.id and u.status="Inactive"');
+         $users = DB::select('select u.id,u.name,u.department_id,d.department_name,u.email,u.status from users u,departments d where u.department_id=d.id and u.status="Inactive"');
 //dd($users);
 
 $departments=department::get();

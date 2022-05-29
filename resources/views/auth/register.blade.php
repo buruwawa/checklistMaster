@@ -3,15 +3,16 @@
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="tc_content">
                     <!--begin::Subheader-->
-                    <!-- <div class="subheader py-2 py-lg-6 subheader-solid">
+                    <div class="subheader py-2 py-lg-6 subheader-solid">
                         <div class="container-fluid">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb bg-white mb-0 px-0 py-2">
+                                    <li class="breadcrumb-item active" aria-current="page">General Settings</li>
                                     <li class="breadcrumb-item active" aria-current="page">Metadata</li>
                                 </ol>
                             </nav>
                         </div>
-                    </div> -->
+                    </div>
                     <!--end::Subheader-->
                     <!--begin::Entry-->
                     <div class="d-flex flex-column-fluid">
@@ -79,8 +80,9 @@
                                                                     <tr>
                                                                         <th>ID</th>
                                                                         <th >Full Name</th>
+                                                                        <th >Site</th>
                                                                         <th >Department</th>
-                                                                        <th >Eamil</th>
+                                                                        <th >Email</th>
                                                                             
                                                                         <th class="no-sort text-right">Action</th>
                                                                     </tr>
@@ -90,6 +92,7 @@
                                                                     <tr class="kt-table-row kt-table-row-level-0">
                                                                         <td >{{ $user->id }}</td>
                                                                         <td>{{ $user->name }}</td>
+                                                                        <td>{{ $user->site_name }}</td>
                                                                         <td>{{ $user->department_name }}</td>
                                                                         <td>{{ $user->email }}</td>
                                                                         
@@ -118,17 +121,28 @@
                             <small  class="form-text text-muted">please edit user name</small>
                         </div>  
                                   <div class="form-group">
+                        <label class="text-dark" >Edit Site/Accommodation</label>
+                        <select name="site" id="site" class="form-control">
+                   
+                                        <option value="{{$user->id}}">{{$user->id}}</option>
+                                         @foreach ($sites as $site)
+                                          <option value="{{$site->id}}">{{$site->site_name}}</option>
+                                     
+                                       @endforeach
+                        </select>
+                    </div> 
+
+                      <div class="form-group">
                         <label class="text-dark" >Department</label>
                         <select name="department" id="" class="form-control">
                    
-                                        <option value="{{$user->department}}">{{$user->department_name}}</option>
+                                        <option value="{{$user->department_id}}">{{$user->department_name}}</option>
                                          @foreach ($departments as $department)
                                           <option value="{{$department->id}}">{{$department->department_name}}</option>
                                      
                                        @endforeach
                         </select>
                     </div> 
-
 
                          <div class="form-group">
                             <label class="text-dark" >Edit user Email</label>
@@ -215,6 +229,17 @@
                 <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
               <div>
+                <x-jet-label for="site" value="{{ __('Site/Accommodation') }}" />
+ <select name="site" id="site" class="block mt-1 w-full" required>
+                        <option value="">--- Select Site ---</option>
+                            @foreach ($sites as $site)
+                       <option value="{{$site->id}}">{{$site->site_name}}</option>
+
+                            @endforeach
+                        </select>
+            </div>
+
+  <div>
                 <x-jet-label for="department" value="{{ __('Department') }}" />
  <select name="department" id="department" class="block mt-1 w-full" required>
                         <option value="">--- Select Department ---</option>
@@ -224,6 +249,7 @@
                             @endforeach
                         </select>
             </div>
+
 
             <div class="mt-4">
                 <x-jet-label for="email" value="{{ __('Email') }}" />
