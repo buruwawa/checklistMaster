@@ -32,12 +32,12 @@ class UserRegisterController extends Controller
    // dd($users);
         //return view('admin.settings.metadata.metadata',compact('metadatas','datatypes'));
 
-  $users = DB::select("select u.id,u.name,u.site_id,u.department_id,d.department_name,u.email,u.status from users u,departments d where u.department_id=d.id and u.status='Active'");
+  //$users = DB::select("select u.id,u.name,u.site_id,u.department_id,d.department_name,u.email,u.status from users u,departments d where u.department_id=d.id and u.status='Active'");
 
-  // $users = user::where('status','Active')
-  // ->where('name','!=',"")
-  // ->get();
- dd($users);
+  $users = user::where('status','Active')
+  ->where('name','!=',"")
+  ->get();
+ //dd($users);
 
 $departments=department::get();
 $sites=site::get();

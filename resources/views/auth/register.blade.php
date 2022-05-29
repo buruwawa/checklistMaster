@@ -92,8 +92,23 @@
                                                                     <tr class="kt-table-row kt-table-row-level-0">
                                                                         <td >{{ $user->id }}</td>
                                                                         <td>{{ $user->name }}</td>
-                                                                        <td>{{ $user->site_name }}</td>
-                                                                        <td>{{ $user->department_name }}</td>
+
+                                                                       @foreach ($sites as $site)
+                                                                        @if($user->site_id==$site->id)
+                                                                        <td>{{ $site->site_name }}</td>
+                                                                        @endif
+                                                                    @endforeach
+                                                                      
+                                                                        @foreach ($departments as $department)
+                                                                        @isset($user->department_id)
+                                                                        @if($user->department_id==$department->id)
+                                                                        <td>{{ $department->unit_name }}</td>
+                                                                        @else
+                                                                         <td>mm</td>
+                                                                        @endif
+                                                                        @endisset
+                                                                    @endforeach
+                                                                       
                                                                         <td>{{ $user->email }}</td>
                                                                         
                                                                         <td>
