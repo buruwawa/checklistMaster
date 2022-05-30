@@ -111,7 +111,7 @@
                         <label class="text-dark" >Department</label>
                         <select name="department" id="" class="form-control">
                    
-                                        <option value="{{$user->department}}">{{$user->department_name}}</option>
+                                        <option value="{{$user->department_id}}">{{$user->department_name}}</option>
                                          @foreach ($departments as $department)
                                           <option value="{{$department->id}}">{{$department->department_name}}</option>
                                      

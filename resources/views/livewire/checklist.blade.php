@@ -4,19 +4,16 @@
                               <h5   class="text-center">{{ $message }}</h5>
                             </div>
                             @endif
+<!-- s -->
+<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" /> -->
 
+ <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script> -->
 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
-
-<!-- <select class="selectpicker" data-show-subtext="true" data-live-search="true">
-<option data-tokens="name">name</option>
-<option data-tokens="family">family</option>
-</select> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
 
 <div class="row">
@@ -40,27 +37,31 @@
           <input type="hidden" name="pd" id="pd">
             <!-- <input type="text" name="index[]" id="index">   -->
 
-     <!-- <div class="form-group">
-                        <select wire:model="indicator_id" name="indicator_id" id="indicator_id" class="form-control">
-                           <option value="">--- Select Metaname ---</option>
-                            @foreach ($metanames as $metaname)
-                          <option value="{{$metaname->id}}">{{$metaname->metaname_name}}</option>
+  
 
-                            @endforeach
-                        </select>
-    </div> -->
+ <div class="form-group row">
+  <select id="select_page" style="width:200px;" class="operator"> 
+         <option value="">Select a Page...</option>
+         <option value="alpha">alpha</option> 
+         <option value="beta">beta</option>
+         <option value="theta">theta</option>
+         <option value="omega">omega</option>
+  </select>
+</div>
 
  <div class="form-group row">
               <label for="" class="col-sm-2 form-control-label">Metaname</label>
-              <div class="col-sm-10">
-                <select class="form-control selectpicker" id="select-countryb" data-live-search="true">
-   <option data-tokens="">--- Select Metaname ---</option>
-
-                            @foreach ($acts as $key=>$activity)
-                          <option data-tokens="{{$activity->id}}">{{$activity->metaname_name}}</option>
+ <div class="col-sm-10">
+<input list="brow" class="form-control">
+<datalist id="brow"> 
+  <option value="">--- Select Metaname ---</option>
+    @foreach ($acts as $key=>$activity)
+                          <option value="{{$activity->metaname_name}}">{{$activity->metaname_name}}</option>
 
                             @endforeach
-                </select>
+</datalist>
+         </div>     
+             
 
               </div>
             </div>
@@ -101,10 +102,10 @@
   <div class="panel-group">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title"> <div class="card"><a data-toggle="collapse" href="#collaps{{$p->id}}">Description if any</a>
+        <h4 class="panel-title"> <div class="card"><a data-toggle="collapse" href="#collaps{{ $qn->id }}{{$p->id}}">Description if any</a>
        </div>
       </div>
-      <div id="collaps{{$p->id}}" class="panel-collapse collapse">
+      <div id="collaps{{ $qn->id}}{{$p->id}}" class="panel-collapse collapse">
         <textarea id="desc" name="desc{{$p->id}}[]" placeholder="---enter description if any---" class="form-control"></textarea>
               </div>
     </div>
@@ -113,10 +114,10 @@
  <div class="panel-group">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title"> <div class="card">    <a data-toggle="collapse" href="#collap{{$p->id}}">Photo if any</a>
+        <h4 class="panel-title"> <div class="card">    <a data-toggle="collapse" href="#collap{{ $qn->id  }}{{$p->id}}">Photo if any</a>
        </div>
       </div>
-      <div id="collap{{$p->id}}" class="panel-collapse collapse">
+      <div id="collap{{ $qn->id }}{{$p->id}}" class="panel-collapse collapse">
         
 <div class="row">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
@@ -140,12 +141,14 @@
   </div>
    <!-- <button  class="btn-sm btn btn-primary float-right" type="submit">Savex <i class="fas fa-save"></i></button>  -->
                @endforeach
-
-               <hr>
+  <div class="row">
  <div class="col-md-12 col-sm-12">
- <button  class="btn-sm btn btn-primary float-right" type="submit">Save<i class="fas fa-save"></i></button> 
+ <div class="wawa-bgcolor">
+                                    <button  class="btn-sm btn btn-dark float-right" type="submit">Save</button>
+                                 </div> 
 </div>
 <hr>
+</div>
    </div>   
    
    @endforeach

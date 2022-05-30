@@ -64,12 +64,12 @@ License: You must have a valid license purchased only from themeforest(the above
 	<link rel="shortcut icon" href="../../assets/images/misc/logo.svg" />
 
 	<!-- Custom App -->
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
+	<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"> -->
+  <!--   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" /> -->
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
   <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script> -->
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -458,8 +458,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="../../../assets/api/daterange-picker/daterangepicker.min.js"></script>
 
    	<script src="./../../assets/js/script.bundle.js"></script>
-	  <!-- <script src="../../img_library/scripts.js" type="text/javascript"></script> -->
-	  
+   	
 	      <script src="../../../assets/js/hierarchy-select.js"></script>
 	          <script src="../../../assets/js/hierarchy-select.min.js"></script>
 

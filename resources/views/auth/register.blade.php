@@ -80,7 +80,7 @@
                                                                     <tr>
                                                                         <th>ID</th>
                                                                         <th >Full Name</th>
-                                                                        <th >Site</th>
+                                                                        <th >Site Name</th>
                                                                         <th >Department</th>
                                                                         <th >Email</th>
                                                                             
@@ -92,23 +92,24 @@
                                                                     <tr class="kt-table-row kt-table-row-level-0">
                                                                         <td >{{ $user->id }}</td>
                                                                         <td>{{ $user->name }}</td>
-
+ <td>
                                                                        @foreach ($sites as $site)
                                                                         @if($user->site_id==$site->id)
-                                                                        <td>{{ $site->site_name }}</td>
+                                                                       {{ $site->site_name }}
                                                                         @endif
                                                                     @endforeach
-                                                                      
+                                                                    </td>
+
+                                                                       <td>
                                                                         @foreach ($departments as $department)
                                                                         @isset($user->department_id)
                                                                         @if($user->department_id==$department->id)
-                                                                        <td>{{ $department->unit_name }}</td>
-                                                                        @else
-                                                                         <td>mm</td>
+                                                                       {{ $department->unit_name }}
+                                                                     
                                                                         @endif
                                                                         @endisset
                                                                     @endforeach
-                                                                       
+                                                                       </td>
                                                                         <td>{{ $user->email }}</td>
                                                                         
                                                                         <td>
@@ -139,7 +140,11 @@
                         <label class="text-dark" >Edit Site/Accommodation</label>
                         <select name="site" id="site" class="form-control">
                    
-                                        <option value="{{$user->id}}">{{$user->id}}</option>
+                                        <option value="{{$user->site_id}}">  @foreach ($sites as $site)
+                                                                        @if($user->site_id==$site->id)
+                                                                       {{ $site->site_name }}
+                                                                        @endif
+                                                                    @endforeach</option>
                                          @foreach ($sites as $site)
                                           <option value="{{$site->id}}">{{$site->site_name}}</option>
                                      
@@ -151,9 +156,16 @@
                         <label class="text-dark" >Department</label>
                         <select name="department" id="" class="form-control">
                    
-                                        <option value="{{$user->department_id}}">{{$user->department_name}}</option>
+                                        <option value="{{$user->department_id}}">   @foreach ($departments as $department)
+                                                                        @isset($user->department_id)
+                                                                        @if($user->department_id==$department->id)
+                                                                       {{ $department->unit_name }}
+                                                                     
+                                                                        @endif
+                                                                        @endisset
+                                                                    @endforeach</option>
                                          @foreach ($departments as $department)
-                                          <option value="{{$department->id}}">{{$department->department_name}}</option>
+                                          <option value="{{$department->id}}">{{$department->unit_name}}</option>
                                      
                                        @endforeach
                         </select>

@@ -40,37 +40,7 @@ public function store(Request $request)
 
  $metanames = request('metanames');
          $indicators = request('indicators');
-         // $names = request('names');
-//dd($indicators);
 
-// $indicator = setIndicator::UpdateOrCreate([
-//         'qns'=>request('question'),
-//          'status'=>'Active',
-//           'user_id'=>auth()->id()
-//         ]);
-
-
-// /dd($names->name);
-//dd(request('property_name'));
-
-
-  // $tourhearfrom = property::UpdateOrCreate(
-  //     ['site_id'=>request('site_id'),
-  //       'metaname_id'=>request('metaname_id'),
-  //    'property_name'=>request('property_name')],
-
-  //     [
-  //               'location_id'=>request('metaname_id'),
-  //                'property_type'=>request('property_type'),
-  //              'property_serial_no'=>request('property_serial_no'),
-  //               'property_barcode'=>request('property_barcode'),
-  //               'property_tag_no'=>request('property_tag_no'),
-  //               'property_description'=>request('property_description'),
-  //               'user_id'=>auth()->id()    
-  //       ]);
-
-//        if($metanames !=null)
-//      {
 
  if($indicators ==null)
      {

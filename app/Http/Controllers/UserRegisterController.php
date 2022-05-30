@@ -128,7 +128,7 @@ else
      */
     public function update(Request $request,$id)
     {
-        //dd($id);
+        //dd(request('site'));
        $user = user::where('id',$id)->first();
         if($user){
            $user->update([

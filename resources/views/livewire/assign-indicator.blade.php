@@ -55,11 +55,12 @@
   
                                      
                                 </div>
-                                 </div>
-                               <button  class="btn-sm btn btn-primary float-right" type="submit">Save <i class="fas fa-save"></i></button>  
+                                <div class="wawa-bgcolor">
+                                    <button  class="btn btn-dark float-right" type="submit">Appy</button>
+                                 </div> 
+                                 </div> 
                                  </div>                                                                                 
-                                
-                                   
+                                                                 
 
                                    </form>
 

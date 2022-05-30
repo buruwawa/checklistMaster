@@ -84,6 +84,4 @@ class Department extends Component
 
   }
 
-
-
 }
