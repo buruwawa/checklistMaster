@@ -7,7 +7,7 @@
                         <div class="container-fluid">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb bg-white mb-0 px-0 py-2">
-                                    <li class="breadcrumb-item " aria-current="page">Settings</li>
+                                    <li class="breadcrumb-item " aria-current="page">General Settings</li>
                                     <li class="breadcrumb-item active" aria-current="page">Users</li>
                                 </ol>
                             </nav>
@@ -25,8 +25,8 @@
                                             <div class="card card-custom gutter-b bg-transparent shadow-none border-0" >
                                                 <div class="card-header align-items-center  border-bottom-dark px-0">
                                                     <div class="card-title mb-0">
-                                                        <h3 class="card-label mb-0 font-weight-bold text-body">Users
-                                                        </h3>
+                                                        <h6 class="card-label mb-0 font-weight-bold text-body">Users
+                                                        </h6>
                                                     </div>
 
                                                     <div class="d-flex">
@@ -58,7 +58,7 @@
                                     @if($user !="[]")
                                     <div class="row">
 
-                                        <div class="col-12 ">
+                                        <div class="col-12">
                                             <div class="card card-custom gutter-b bg-white border-0" >
                                                 <div class="card-body" >
                                                     <div >
@@ -71,14 +71,17 @@
                                                                             <th>User</th>
                                                                             <th>E-mail</th>
                                                                             <th>Role</th>
-                                                                            @role('Admin|SuperAdmin') <th>Permission</th> @endrole
+                                                                            @role('Admin|SuperAdmin')
+                                                                             <th>Permission</th> 
+                                                                              <th>Department</th> 
+                                                                             @endrole
                                                                             <th>Created</th>
                                                                             @role('Admin') <th>Action</th> @endrole
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
 
-                                                                @foreach($user as $value)
+                                                                @foreach($users as $value)
                                                                 @if($value->email != "admin@moxa.co.tz")
                                                                 <tr class="border-bottom @if(auth()->id()== $value->id)text-primary @endif" >
                                                                     <th scope="row">{{ $value->name }}</a></th>
@@ -86,8 +89,8 @@
                                                                     <td>
 
                                                                         @forelse($user as $role)
-                                                                        @if($role->model_id == $value->id)
-                                                                        <form action="{{ route('users.destroy', $value->id) }}" method="POST" >
+                                                                        @if($role->sys_user_id == $value->id)
+                                                                        <form action="{{ route('users.destroy', $role->arole_id) }}" method="POST" >
                                                                             @method('PUT')
                                                                             <input type="hidden" name="_method" value="delete">
                                                                             <input type="hidden" name="users" value="users">
@@ -133,7 +136,7 @@
                                                                             <select name="role_name" id="" class="form-control" required>
                                                                                 <option value="" selected>--Assign role --</option>
                                                                                 @foreach ($roles as $role)
-                                                                                <option>{{ $role->name }}</option>
+                                                                                <option value="{{$role->id}}">{{ $role->name }}</option>
                                                                                 @endforeach
 
                                                                             </select>
@@ -226,6 +229,24 @@
                                                     {{-- End of role Modal  --}}
                                                                     </td>
                                                                     @endrole
+  {{-- DEPARTMENT  --}}
+
+   @role('Admin|SuperAdmin') 
+    <td>
+                                                                        @forelse($departments as $department)
+                                                                        @if($department->id == $value->department_id)
+                                                                      
+                                                                        {{$department->unit_name}}
+                                                                        @endif
+                                                                    @empty
+                                                                        <span class="alert alert-danger">No separate Department</span>
+                                                                    @endforelse
+                                                            </div>
+                                                            </div>
+                                                    {{-- End of role Modal  --}}
+                                                                    </td>
+                                                                    @endrole
+
                                                                     <td>{{ date('d/m/y',strtotime($value->created_at)) }}</td>
                                                                @role('Admin')     <td>
                                                                         <div class="button-list">

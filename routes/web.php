@@ -75,19 +75,18 @@ Route::get('create-company',[tenantController::class,'index'])->name('create-com
 Route::get('/license', [adminController::class,'license']);
 // Route::middleware(['tenant','auth'])->group(function() {
     // routes
-  Route::resource('propertyTest', PropertyLivewire::class)->middleware(['role:Admin|Store']);
-  Route::resource('setIndicator', IndicatorLivewire::class)->middleware(['role:Admin|Store']);
+  Route::resource('propertyTest', PropertyLivewire::class)->middleware(['role:SuperAdmin|GeneralAdmin|Admin|Account']);
+  Route::resource('setIndicator', IndicatorLivewire::class)->middleware(['role:SuperAdmin|GeneralAdmin|Admin|Account']);
 
  Route::get('livewirex/{id}',Department::class)->name('livewirex');
  Route::get('property/{id}',PropertyLivewire::class)->name('property');
  Route::get('indicator/{id}',IndicatorLivewire::class)->name('indicator');
 
-
 Route::get('assign-indicator/{id}',AssignLivewire::class)->name('assign-indicator');
-Route::resource('assign-indicator',AssignLivewire::class)->middleware(['role:Admin|Store']);
+Route::resource('assign-indicator',AssignLivewire::class)->middleware(['role:SuperAdmin|GeneralAdmin|Admin|Account']);
 
 Route::get('assign-roles/{id}',AssignRolesLivewire::class)->name('assign-roles');
-Route::resource('assign-roles',AssignRolesLivewire::class)->middleware(['role:Admin|Store']);
+Route::resource('assign-roles',AssignRolesLivewire::class)->middleware(['role:SuperAdmin|GeneralAdmin|Admin|Account']);
 
 Route::get('assign-roles-user/{id}',AssignRolesUserLivewire::class)->name('assign-roles-user');
 Route::resource('assign-roles-user',AssignRolesUserLivewire::class)->middleware(['role:Admin|Store']);
@@ -132,13 +131,13 @@ Route::resource('department', DepartmentController::class)->middleware(['role:Ad
   Route::get('recovery-department',[DepartmentController::class,'recovery'])->name('recovery-department');
 
 // Roles ontroller
-Route::resource('role-register', rolesController::class)->middleware(['role:Admin|Store']);
+Route::resource('role-register', rolesController::class)->middleware(['role:SuperAdmin|GeneralAdmin|Admin|Account']);
   Route::get('delete-role/{id}',[rolesController::class,'edit'])->name('delete-role');
   Route::get('update-role/{id}',[rolesController::class,'recoveryUpdate'])->name('update-role');
   Route::get('recovery-role',[rolesController::class,'recovery'])->name('recovery-role');
 
 // Site ontroller
-       Route::resource('sites',siteController::class)->middleware(['role:Admin|Store']);
+       Route::resource('sites',siteController::class)->middleware(['role:SuperAdmin|GeneralAdmin|Admin|Account']);
        Route::get('delete-site/{id}',[siteController::class,'edit'])->name('delete-site');
        Route::get('recovery-site',[siteController::class,'recovery'])->name('recovery-site');
        Route::get('update-site/{id}',[siteController::class,'recoveryUpdate'])->name('update-site');
@@ -148,7 +147,9 @@ Route::resource('role-register', rolesController::class)->middleware(['role:Admi
 Route::resource('companyvalue',companyValueController::class);
 Route::resource('admin', adminController::class);
 Route::resource('warehouse', warehouseController::class)->middleware(['role:Admin']);
-Route::resource('users', usersPermissionController::class)->middleware(['role:Admin']);
+Route::resource('users', usersPermissionController::class)->middleware(['role:SuperAdmin|GeneralAdmin|Admin|Account']);
+Route::get('update-user-department/{id}',[usersPermissionController::class,'recoveryUpdate'])->name('update-user-department');
+
 Route::resource('suppliers', supplierController::class)->middleware(['role:Admin']);
 Route::resource('stocks', stockController::class)->middleware(['role:Admin|Store']);
 
@@ -172,7 +173,7 @@ Route::get('invoices/{id}', [paymentController::class,'viewInvoice'])->name('inv
 Route::get('order', [salesController::class,'order'])->name('order','order');
 Route::post('orders',[posController::class,'orders'])->name('orders','orders');
 
-route::resource('/roles',roleController::class)->middleware(['role:Admin']);
+route::resource('/roles',roleController::class)->middleware(['role:SuperAdmin|GeneralAdmin|Admin|Account']);
 route::resource('/expenses',expensesController::class)->middleware(['role:Admin|Account']);
 route::resource('/stores',storeController::class)->middleware(['role:Admin|Store']);
 route::resource('/account',accountController::class)->middleware(['role:Admin|Account']);

@@ -11,18 +11,15 @@
  <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script> -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> -->
 <!-- Above are the custom library by wawa-->
-<div class="row">
-</div>
 
 
-            <div class="row">
+<div class="container">
                   <!-- <h4 class="title font-weight-bold text-center">List of Metaname</h4> -->
                   <div class="col-xl-12 col-md-12"><h5 class="title font-weight-bold text-center" >Checklist Master</h5></div>
-
 
             <div class="col-xl-12 col-md-12">                       
             @isset($metadatas)
@@ -37,7 +34,6 @@
             <!-- <input type="text" name="index[]" id="index">   -->
 
   
-
  <div class="form-group row">
   <select id="select_page" style="width:200px;" class="operator"> 
          <option value="">Select a Page...</option>
@@ -65,7 +61,7 @@
               </div>
             </div>
 
-     <label class="text-dark" ><b>Indicator Question</b></label>
+     <label class="text-dark" ><b>Indicator Questions</b></label>
       
  <div class="panel-group"  style="background-color:#fff !important">
   <div class="panel panel-default">
@@ -84,6 +80,7 @@
                
 
       @foreach ($qns as $qn )    
+       @if($p->metaname_id ==$qn->metaname_id) 
        <div class="panel-group btn-sm" style="background-color:#f49d2a !important">{{ $qn->qns  }}</div>
             <div class="form-group">
        @foreach ($metadatas as $metadata)                                           
@@ -138,15 +135,16 @@
       </div>
     </div>
   </div>
+   @endif
    <!-- <button  class="btn-sm btn btn-primary float-right" type="submit">Savex <i class="fas fa-save"></i></button>  -->
                @endforeach
   <div class="row">
  <div class="col-md-12 col-sm-12">
  <div class="wawa-bgcolor">
-                                    <button  class="btn-sm btn btn-dark float-right" type="submit">Save</button>
+                                    <button  class="btn-sm btn btn-secondary float-right" type="submit">Save</button>
                                  </div> 
 </div>
-<hr>
+<hr><hr>
 </div>
    </div>   
    
@@ -155,13 +153,27 @@
            </div>                       
                                 </div>
                                  </div>
-                                 <button  class="btn-sm btn btn-primary float-right" type="submit">Finish<i class="fas fa-save"></i></button> 
+         
+   <div class="row">
+     <div class="col-md-6 col-sm-6">
+     </div>
 
+</div>
                                   @endisset 
                                  </div>
-                                                                          
-                                  
-                                   
+                                         <div class="row">
+   <!--   <div class="col-md-6 col-sm-6">
+     </div> -->
+
+
+
+
+                                  <div class="col-md-12 col-sm-12">
+  <div class="panel panel-default">
+                                    <button  class="btn-sm btn btn-dark float-right" type="submit">Finish</button>
+                                 </div> 
+</div>
+ </div>                                  
 
                                    </form>
 

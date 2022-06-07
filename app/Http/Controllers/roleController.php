@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use App\Models\userRole;
+
 use App\Models\registerProgram;
 use App\Models\warehouse;
 use Spatie\Permission\Traits\HasRoles;
@@ -50,6 +52,7 @@ class roleController extends Controller
     {
         //
         if(request('role')){
+           
             if(Role::where('name',request('name'))->exists()){
                 return redirect()->back()->with('error','This role already created');
             }
@@ -69,9 +72,41 @@ class roleController extends Controller
         }
         elseif(request('addrole')){
 
-                 $user = User::where('id',request('user_id'))->first();
-                 $user->assignRole(request('role_name'));
-                 return redirect()->back()->with('success','Role assigned successefuly');
+                 // dd(request('role_name'));
+                 // $user = User::where('id',request('user_id'))->first();
+                 // $user->assignRole(request('role_name'));
+                 // return redirect()->back()->with('success','Role assigned successefuly');
+       //          $user = user::where('id',$id)
+       //         ->update([
+       //          'department_id'=>"",
+       //           'user_id'=>auth()->id()
+
+       //        ]);
+       // return redirect()->back()->with('success','Department recovered successfly');
+
+
+   $role = userRole::where('sys_user_id',request('user_id'))
+   ->where('role_id',request('role_name'))
+    ->first();
+        if($role){
+           $role->update([
+            'status'=>'Active',
+            'user_id'=>auth()->id()
+           ]);
+           return redirect()->back()->with('success','Role Updated successfully');
+        }
+        else{
+
+   $appliedto =userRole::Create([
+        'sys_user_id'=>request('user_id'),
+        'role_id'=>request('role_name'),        
+        'status'=>'Active',
+        'user_id'=>auth()->id()        
+        ]);
+
+            return redirect()->back()->with('success','Role Updated successfully');
+        }
+
 
         }
 
@@ -86,8 +121,6 @@ class roleController extends Controller
             $user->givePermissionTo(request('permission_to_assign'));
             return redirect()->back()->with('success','Permission given to the user successefuly');
         }
-
-
     }
 
     /**

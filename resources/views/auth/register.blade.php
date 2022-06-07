@@ -8,7 +8,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb bg-white mb-0 px-0 py-2">
                                     <li class="breadcrumb-item active" aria-current="page">General Settings</li>
-                                    <li class="breadcrumb-item active" aria-current="page">Metadata</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Add User</li>
                                 </ol>
                             </nav>
                         </div>

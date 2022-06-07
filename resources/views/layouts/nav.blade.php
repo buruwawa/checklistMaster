@@ -69,8 +69,6 @@
             </li>
             @endrole
 
-
-
  <!--   <li class="nav-item
         {{ (request()->is('stock-purchase')) ? 'active' : '' }}
         ">
@@ -80,50 +78,47 @@
             </span>
             <span class="nav-text">Purchases</span>
         </a>
-        </li>
- -->
+        </li> -->
+
      <div><hr></div>   
         @role('Admin|Store|Account')
-          <li class="nav-item {{ (request()->is('Checklist')) ? 'active' : '' }} {{ (request()->is('Checklist')) ? 'active' : '' }}">
-            <a  class="nav-link" data-toggle="collapse" href="#rental" role="button"
-            aria-expanded="false" aria-controls="rental">
-                <span class="svg-icon nav-icon">
-                    <i class="fas fa-check font-size-h4"></i>
-                </span>
-                <span class="btn-sm">Checklist</span>
-                <i class="fas fa-chevron-right fa-rotate-90"></i>
-            </a> 
-            <div class="collapse nav-collapse {{ (request()->is('Checklist')) ? 'show' : '' }}
-                {{ (request()->is('Checklist')) ? 'show' : '' }}
-                " id="rental" data-parent="#accordion">
-                <ul class="nav flex-column">
+  <li class="nav-item
+            {{ (request()->is('checklist/{id}')) ? 'active' : '' }}
+            ">
+                <a class="nav-link" data-toggle="collapse" href="#accordionChecklist" role="button"
+                aria-expanded="false" aria-controls="accordionChecklist">
+                    <span class="svg-icon nav-icon">
+                        <i class="fas fa-cogs font-size-h4"></i>
+                    </span>
+                    <span class="btn-sm">Checklist</span>
+                    <i class="fas fa-chevron-right fa-rotate-90"></i>
+                 </a>
 
-                    <li class="nav-item {{ (request()->is('Checklist')) ? 'sub-active' : '' }}">
-                        <a href="/checklist/{id}" class="nav-link sub-nav-link {{ (request()->is('Checklist')) ? 'active' : '' }}">
-                            <span class="svg-icon nav-icon d-flex justify-content-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                  </svg>
-                            </span>
-                            <span class="nav-text">Checklist</span>
-                        </a>
-                    </li>
+                <div class="collapse nav-collapse
+                {{ (request()->is('checklist/{id}')) ? 'show' : '' }}
+                " id="accordionChecklist" data-parent="#accordion">
+                    <div id="accordion">
+                        <ul class="nav flex-column">
 
-                  <!--   <li class="nav-item {{ (request()->is('rent-items')) ? 'sub-active' : '' }}">
-                        <a href="/rent-items" class="nav-link sub-nav-link {{ (request()->is('rent-items')) ? 'active' : '' }}">
-                            <span class="svg-icon nav-icon d-flex justify-content-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                  </svg>
-                            </span>
-                            <span class="nav-text">Renting Item </span>
-                        </a>
-                    </li> -->
-                </ul>
-            </div>
-        </li>
+                              <li class="nav-item {{ (request()->is('checklist/{id}')) ? 'sub-active' : '' }}">
+                                <a href="/checklist/{id}" class="nav-link sub-nav-link {{ (request()->is('checklist/{id}')) ? 'active' : '' }}">
+                                    <span class="svg-icon nav-icon d-flex justify-content-center">
+                                        <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                          </svg>
+                                    </span>
+                                    <span class="nav-text" data-toggle="tooltip" data-placement="bottom" title="Assign Indicators to Metaname">Checklist</span>
+                                </a>
+                         </li> 
+                                                  
 
-   <!--      <li class="nav-item {{ (request()->is('sales')) ? 'active' : '' }} {{ (request()->is('outstandings')) ? 'active' : '' }}">
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+
+  <!--       <li class="nav-item {{ (request()->is('sales')) ? 'active' : '' }} {{ (request()->is('outstandings')) ? 'active' : '' }}">
             <a  class="nav-link" data-toggle="collapse" href="#sales" role="button"
             aria-expanded="false" aria-controls="sales">
                 <span class="svg-icon nav-icon">
@@ -161,8 +156,8 @@
                 </ul>
             </div>
         </li>
-        @endrole -->
-         <!--    @role('Admin|Store')
+        @endrole
+      @role('Admin|Store')
             <li class="nav-item {{ (request()->is('stocking')) ? 'active' : '' }} {{ (request()->is('stores')) ? 'active' : '' }}">
                 <a  class="nav-link" data-toggle="collapse" href="#stock" role="button"
                 aria-expanded="false" aria-controls="stock">
@@ -224,9 +219,7 @@
                 </div>
             </li>
 @endrole
- -->
-
-            @role('Admin|Account')
+        @role('Admin|Account')
             <li class="nav-item
             {{ (request()->is('payment')) ? 'active' : '' }}
             {{ (request()->is('account/1')) ? 'active' : '' }}
@@ -285,7 +278,7 @@
                 </div>
             </li>
             @endrole
-            <!--  @role('Admin')
+           @role('Admin')
             <li class="nav-item
             {{ (request()->is('customers-list')) ? 'active' : '' }}
             {{ (request()->is('suppliers')) ? 'active' : '' }}
@@ -462,8 +455,8 @@
 
 <div><hr></div>
             <li class="nav-item
-            {{ (request()->is('assign-indicator')) ? 'active' : '' }}
-            {{ (request()->is('indicator')) ? 'active' : '' }}
+            {{ (request()->is('assign-indicator/{id}')) ? 'active' : '' }}
+            {{ (request()->is('indicator/{id}')) ? 'active' : '' }}
             ">
                 <a class="nav-link" data-toggle="collapse" href="#Indicatorsettings" role="button"
                 aria-expanded="false" aria-controls="Indicatorsettings">
@@ -475,14 +468,14 @@
                  </a>
 
                 <div class="collapse nav-collapse
-                {{ (request()->is('assign-indicator')) ? 'show' : '' }}
-                {{ (request()->is('indicator')) ? 'show' : '' }}
+                {{ (request()->is('assign-indicator/{id}')) ? 'show' : '' }}
+                {{ (request()->is('indicator/{id}')) ? 'show' : '' }}
                 " id="Indicatorsettings" data-parent="#accordion">
                     <div id="accordion">
                         <ul class="nav flex-column">
 
-                              <li class="nav-item {{ (request()->is('assign-indicator')) ? 'sub-active' : '' }}">
-                                <a href="/assign-indicator/{id}" class="nav-link sub-nav-link {{ (request()->is('assign-indicator')) ? 'active' : '' }}">
+                              <li class="nav-item {{ (request()->is('assign-indicator/{id}')) ? 'sub-active' : '' }}">
+                                <a href="/assign-indicator/{id}" class="nav-link sub-nav-link {{ (request()->is('assign-indicator/{id}')) ? 'active' : '' }}">
                                     <span class="svg-icon nav-icon d-flex justify-content-center">
                                         <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -491,17 +484,18 @@
                                     <span class="nav-text" data-toggle="tooltip" data-placement="bottom" title="Assign Indicators to Metaname">AIM</span>
                                 </a>
                          </li> 
-                                                   
-                              <li class="nav-item {{ (request()->is('indicator')) ? 'sub-active' : '' }}">
-                                <a href="/indicator/{id}" class="nav-link sub-nav-link {{ (request()->is('indicator')) ? 'active' : '' }}">
+
+                           <li class="nav-item {{ (request()->is('indicator/{id}')) ? 'sub-active' : '' }}">
+                                <a href="/indicator/{id}" class="nav-link sub-nav-link {{ (request()->is('indicator/{id}')) ? 'active' : '' }}">
                                     <span class="svg-icon nav-icon d-flex justify-content-center">
                                         <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                           </svg>
                                     </span>
-                                    <span class="nav-text">Reg. Indicator</span>
+                                    <span class="nav-text" data-toggle="tooltip" data-placement="bottom" title="Register Indicators Questions">RIQ</span>
                                 </a>
-                            </li>                         
+                         </li> 
+                     
 
                         </ul>
                     </div>
@@ -510,7 +504,7 @@
 
 
      <li class="nav-item
-            {{ (request()->is('property')) ? 'active' : '' }}
+            {{ (request()->is('property/{id}')) ? 'active' : '' }}
             {{ (request()->is('metadata')) ? 'active' : '' }}
             {{ (request()->is('metaname')) ? 'active' : '' }}
             ">
@@ -524,7 +518,7 @@
                 </a>
 
                 <div class="collapse nav-collapse
-                {{ (request()->is('property')) ? 'show' : '' }}
+                {{ (request()->is('property/{id}')) ? 'show' : '' }}
                 {{ (request()->is('metadata')) ? 'show' : '' }}
                 {{ (request()->is('metaname')) ? 'show' : '' }}
                 " id="settingp" data-parent="#accordion">
@@ -532,7 +526,7 @@
                         <ul class="nav flex-column">
               
     <li class="nav-item {{ (request()->is('property')) ? 'sub-active' : '' }}">
-                                <a href="/property/{id}" class="nav-link sub-nav-link {{ (request()->is('property')) ? 'active' : '' }}">
+                                <a href="/property/{id}" class="nav-link sub-nav-link {{ (request()->is('property/{id}')) ? 'active' : '' }}">
                                     <span class="svg-icon nav-icon d-flex justify-content-center">
                                         <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -540,18 +534,8 @@
                                     </span>
                                     <span class="nav-text">Register Property</span>
                                 </a>
-                            </li>   
+                            </li>  
 
-         <li class="nav-item {{ (request()->is('metadata')) ? 'sub-active' : '' }}">
-                                <a href="/metadata" class="nav-link sub-nav-link {{ (request()->is('metadata')) ? 'active' : '' }}">
-                                    <span class="svg-icon nav-icon d-flex justify-content-center">
-                                        <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                          </svg>
-                                    </span>
-                                    <span class="nav-text">Metadatas</span>
-                                </a>
-                            </li>   
 
                                <li class="nav-item {{ (request()->is('metaname')) ? 'sub-active' : '' }}">
                                 <a href="/metaname" class="nav-link sub-nav-link {{ (request()->is('metaname')) ? 'active' : '' }}">
@@ -560,9 +544,21 @@
                                             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                           </svg>
                                     </span>
-                                    <span class="nav-text">Metanames</span>
+                                    <span class="nav-text">Reg. Metaname</span>
                                 </a>
                             </li> 
+
+         <li class="nav-item {{ (request()->is('metadata')) ? 'sub-active' : '' }}">
+                                <a href="/metadata" class="nav-link sub-nav-link {{ (request()->is('metadata')) ? 'active' : '' }}">
+                                    <span class="svg-icon nav-icon d-flex justify-content-center">
+                                        <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                          </svg>
+                                    </span>
+                                    <span class="nav-text">Reg.Metadatas</span>
+                                </a>
+                            </li>   
+ 
                         </ul>
                     </div>
                 </div>
@@ -570,10 +566,10 @@
 
 
      <li class="nav-item
-            {{ (request()->is('property')) ? 'active' : '' }}
-            {{ (request()->is('assign-roles')) ? 'active' : '' }}
-           {{ (request()->is('assign-roles-user')) ? 'active' : '' }}
-            {{ (request()->is('activity-roles')) ? 'active' : '' }}
+            {{ (request()->is('user-activity/{id}')) ? 'active' : '' }}
+            {{ (request()->is('assign-roles/{id}')) ? 'active' : '' }}
+           {{ (request()->is('assign-roles-user/{id}')) ? 'active' : '' }}
+            {{ (request()->is('activity-roles/{id}')) ? 'active' : '' }}
             ">
                 <a  class="nav-link" data-toggle="collapse" href="#settingr" role="button"
                 aria-expanded="false" aria-controls="settingr">
@@ -585,16 +581,16 @@
                 </a>
 
                 <div class="collapse nav-collapse
-                {{ (request()->is('property')) ? 'show' : '' }}
-                {{ (request()->is('assign-roles')) ? 'show' : '' }}
-                {{ (request()->is('assign-roles-user')) ? 'show' : '' }}
-                {{ (request()->is('activity-roles')) ? 'show' : '' }}
+                {{ (request()->is('user-activity/{id}')) ? 'show' : '' }}
+                {{ (request()->is('assign-roles/{id}')) ? 'show' : '' }}
+                {{ (request()->is('assign-roles-user/{id}')) ? 'show' : '' }}
+                {{ (request()->is('activity-roles/{id}')) ? 'show' : '' }}
                 " id="settingr" data-parent="#accordion">
                     <div id="accordion3">
                         <ul class="nav flex-column">
               
-     <li class="nav-item {{ (request()->is('activity-roles')) ? 'sub-active' : '' }}">
-                                <a href="/activity-roles/{id}" class="nav-link sub-nav-link {{ (request()->is('activity-roles')) ? 'active' : '' }}">
+     <li class="nav-item {{ (request()->is('activity-roles/{id}')) ? 'sub-active' : '' }}">
+                                <a href="/activity-roles/{id}" class="nav-link sub-nav-link {{ (request()->is('activity-roles/{id}')) ? 'active' : '' }}">
                                     <span class="svg-icon nav-icon d-flex justify-content-center">
                                         <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -605,30 +601,30 @@
     </li> 
 
 
-  <li class="nav-item {{ (request()->is('assign-roles')) ? 'sub-active' : '' }}">
-                                <a href="/assign-roles/{id}" class="nav-link sub-nav-link {{ (request()->is('assign-roles')) ? 'active' : '' }}">
+  <li class="nav-item {{ (request()->is('assign-roles/{id}')) ? 'sub-active' : '' }}">
+                                <a href="/assign-roles/{id}" class="nav-link sub-nav-link {{ (request()->is('assign-roles/{id}')) ? 'active' : '' }}">
                                     <span class="svg-icon nav-icon d-flex justify-content-center">
                                         <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                           </svg>
                                     </span>
-                                     <span class="nav-text" data-toggle="tooltip" data-placement="bottom" title="Assign roles to department">ARODE</span>
+                                     <span class="nav-text" data-toggle="tooltip" data-placement="bottom" title="Assign roles to department">ARoDe</span>
                                 </a>
     </li>
 
-     <li class="nav-item {{ (request()->is('assign-roles-user')) ? 'sub-active' : '' }}">
-                                <a href="/assign-roles-user/{id}" class="nav-link sub-nav-link {{ (request()->is('assign-roles-user')) ? 'active' : '' }}">
+     <li class="nav-item {{ (request()->is('assign-roles-user/{id}')) ? 'sub-active' : '' }}">
+                                <a href="/assign-roles-user/{id}" class="nav-link sub-nav-link {{ (request()->is('assign-roles-user/{id}')) ? 'active' : '' }}">
                                     <span class="svg-icon nav-icon d-flex justify-content-center">
                                         <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                           </svg>
                                     </span>
-                                     <span class="nav-text" data-toggle="tooltip" data-placement="bottom" title="Assign roles to User">AROU</span>
+                                     <span class="nav-text" data-toggle="tooltip" data-placement="bottom" title="Assign roles to User">ARoU</span>
                                 </a>
     </li>
 
-     <li class="nav-item {{ (request()->is('user-activity')) ? 'sub-active' : '' }}">
-                                <a href="/user-activity/{id}" class="nav-link sub-nav-link {{ (request()->is('user-activity')) ? 'active' : '' }}">
+     <li class="nav-item {{ (request()->is('user-activity/{id}')) ? 'sub-active' : '' }}">
+                                <a href="/user-activity/{id}" class="nav-link sub-nav-link {{ (request()->is('user-activity/{id}')) ? 'active' : '' }}">
                                     <span class="svg-icon nav-icon d-flex justify-content-center">
                                         <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -647,10 +643,11 @@
 
 
             <li class="nav-item
-            {{ (request()->is('warehouse')) ? 'active' : '' }}
-            {{ (request()->is('shops')) ? 'active' : '' }}
+            {{ (request()->is('department')) ? 'active' : '' }}
+            {{ (request()->is('sites')) ? 'active' : '' }}
             {{ (request()->is('profile')) ? 'active' : '' }}
             {{ (request()->is('user-register')) ? 'active' : '' }}
+            {{ (request()->is('role-register')) ? 'active' : '' }}
             {{ (request()->is('users')) ? 'active' : '' }}
               {{ (request()->is('assign-roles')) ? 'active' : '' }}
             ">
@@ -664,12 +661,13 @@
                 </a>
 
                 <div class="collapse nav-collapse
-                {{ (request()->is('warehouse')) ? 'show' : '' }}
-                {{ (request()->is('shops')) ? 'show' : '' }}
+                {{ (request()->is('department')) ? 'show' : '' }}
+                {{ (request()->is('sites')) ? 'show' : '' }}
                 {{ (request()->is('profile')) ? 'show' : '' }}
                 {{ (request()->is('user-register')) ? 'show' : '' }}
+                {{ (request()->is('role-register')) ? 'show' : '' }}
                 {{ (request()->is('users')) ? 'show' : '' }}
-                 {{ (request()->is('assign-roles')) ? 'active' : '' }}
+                 {{ (request()->is('assign-roles')) ? 'show' : '' }}
                 " id="setting" data-parent="#accordion">
                     <div id="accordion3">
                         <ul class="nav flex-column">
@@ -687,7 +685,7 @@
                                                       
 
 
-                            <li class="nav-item {{ (request()->is('stocks')) ? 'sub-active' : '' }}">
+                            <li class="nav-item {{ (request()->is('sites')) ? 'sub-active' : '' }}">
                                 <a href="/sites" class="nav-link sub-nav-link {{ (request()->is('sites')) ? 'active' : '' }}">
                                     <span class="svg-icon nav-icon d-flex justify-content-center">
                                         <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
@@ -698,7 +696,7 @@
                                 </a>
                             </li>
                            
-                              <li class="nav-item {{ (request()->is('stocks')) ? 'sub-active' : '' }}">
+                              <li class="nav-item {{ (request()->is('department')) ? 'sub-active' : '' }}">
                                 <a href="/department" class="nav-link sub-nav-link {{ (request()->is('department')) ? 'active' : '' }}">
                                     <span class="svg-icon nav-icon d-flex justify-content-center">
                                         <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
@@ -754,7 +752,8 @@
             {{ (request()->is('recovery-site')) ? 'active' : '' }}
             {{ (request()->is('recovery-metadata')) ? 'active' : '' }}
             {{ (request()->is('recovery-metaname')) ? 'active' : '' }}
-          
+            {{ (request()->is('recovery-role')) ? 'active' : '' }}
+            {{ (request()->is('recovery-user')) ? 'active' : '' }}
             ">
                 <a  class="nav-link" data-toggle="collapse" href="#datarec" role="button"
                 aria-expanded="false" aria-controls="datarec">
@@ -770,6 +769,8 @@
                 {{ (request()->is('recovery-site')) ? 'show' : '' }}
                 {{ (request()->is('recovery-metadata')) ? 'show' : '' }}
                 {{ (request()->is('recovery-metaname')) ? 'show' : '' }}
+                {{ (request()->is('recovery-role')) ? 'show' : '' }}
+                {{ (request()->is('recovery-user')) ? 'show' : '' }}
                             " id="datarec" data-parent="#accordion">
                     <div id="accordion3">
                         <ul class="nav flex-column">

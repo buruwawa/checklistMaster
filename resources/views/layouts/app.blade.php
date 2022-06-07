@@ -8,7 +8,7 @@ License: You must have a valid license purchased only from themeforest(the above
 -->
 <html lang="en">
 <!--begin::Head-->
-
+ @livewireStyles
 <head>
 
 	<meta charset="utf-8" />
@@ -78,8 +78,6 @@ License: You must have a valid license purchased only from themeforest(the above
 <body id="tc_body" class="header-fixed header-mobile-fixed subheader-enabled aside-enabled aside-fixed">
    <!-- Paste this code after body tag -->
 
-
-
    {{-- <div class="se-pre-con">
 	<div class="pre-loader">
 	  <img class="img-fluid" src="./assets/images/loadergif.gif" alt="loading">
@@ -138,18 +136,14 @@ License: You must have a valid license purchased only from themeforest(the above
 			<div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="tc_aside">
 				<!--begin::Brand-->
 				<div class="brand flex-column-auto" id="tc_brand" style="background-color: #18684e !important">
-					<!--begin::Logo-->
-
-					<a href="/" class="brand-logo">
+						<a href="/" class="brand-logo">
 						<img class="brand-image" style="height: 15px;" alt="Logo" src="../../assets/images/misc/logo.svg" />
 						<span class="brand-text"><img style="height: 25px;" alt="Logo"
 								src="../../assets/images/misc/logo.svg" /></span>
 
 					</a>
-					<!--end::Logo-->
-
-
 				</div>
+
 				<!--end::Brand-->
 				<!--begin::Aside Menu-->
 				<div class="aside-menu-wrapper flex-column-fluid overflow-auto h-100" id="tc_aside_menu_wrapper">
@@ -233,14 +227,8 @@ License: You must have a valid license purchased only from themeforest(the above
 								</div>
 							</div>
 
-
-
-
-
-
 							<!--begin::Notifications-->
 							<div class="dropdown">
-
 								<div class="topbar-item" data-toggle="dropdown" data-display="static">
 									<div class="btn btn-icon btn-clean btn-dropdown mr-1">
 										<div class="svg-icon svg-icon-xl svg-icon-primary" title="Notification">
@@ -407,27 +395,25 @@ License: You must have a valid license purchased only from themeforest(the above
     </ul>
 </div>
 @endif
-                @yield('content')
 
-                <!--begin::Content-->
-
-
-
-				<div class="footer bg-white py-4 d-flex flex-lg-column" id="tc_footer">
-
-					<div
+ @isset($slot)
+ {{ $slot }}
+ @else
+ @yield('content')
+ <div class="footer bg-white py-4 d-flex flex-lg-column" id="tc_footer">
+									<div
 						class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
 
 						<div class="text-dark order-2 order-md-1">
 							<span class="text-muted font-weight-bold mr-2">©2022</span>
-							<a href="#" target="_blank" class="text-dark-75 text-hover-primary">Developed By: Pasah Group</a>
+							<a href='http://www.pasah.net' class="text-dark-75 text-hover-primary">Developed By: Pasah Group</a>
 						</div>
-
-
-
 					</div>
-
 				</div>
+@endisset
+               
+                <!--begin::Content-->
+				
 				<!--end::Footer-->
 			</div>
 			<!--end::Wrapper-->
@@ -542,8 +528,7 @@ window.addEventListener("load",function() {
     }, 0);
 });
 </script>
+ @livewireScripts
 </body>
-
-
 </html>
 

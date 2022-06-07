@@ -52,6 +52,8 @@ class Checklist extends Component
         public $qnNo;
            public $qn_no;
 
+            public $propArray=[];
+
 public function store(Request $request)
     {
     $indexs = request('index');
@@ -207,7 +209,6 @@ $answerTableUpdate=DB::statement('update answers a,answer_update_photos ap set a
 
 
 $flashanswerTable=DB::statement('truncate table answer_update_photos');
-
 $updateqnsF = answer::where('action',1) 
              ->where('description','Nill')            
              ->update([
@@ -235,18 +236,9 @@ $updateqnsF = answer::where('action',1)
 
           //  $indicators = setIndicator::get();
       $metanames = metaname::get();
-      $qns = setIndicator::where('qns','!=',"")
-      ->orderBy('id')->get();
       $metadatas = optionalAnswer::get();
 
-//$pp = property::get();
 
-//$properties= DB::select('select property_name from properties');
-       // $properties = DB::select('select distinct(p.metaname_id),p.property_name,q.indicator_id,s.qns from properties p,qns_appliedtos q,set_indicators s where p.metaname_id=q.metaname_id and q.indicator_id=s.id');
-
-//$userActitivities=userActivity::get();
-//$uid=auth()->id();
-//dd($uid);
 
  $userActitivities = userActivity::join('metanames','metanames.id','user_activities.activity_id')
  ->where('user_activities.sys_user_id',auth()->id())
@@ -257,6 +249,7 @@ $updateqnsF = answer::where('action',1)
 
 
 $departments=user::where('id',auth()->id())->first();
+
  $userActitivitiesf = userRole::join('activity_roles','activity_roles.role_id','user_roles.role_id')
  ->join('metanames','metanames.id','activity_roles.activity_id')
  ->where('user_roles.sys_user_id',auth()->id())
@@ -265,36 +258,56 @@ $departments=user::where('id',auth()->id())->first();
 ->select('metanames.id','metanames.metaname_name')
  ->get();
 
-//dd($departments);
+//dd($departments->department_id);
  $userActitivitiesff = departmentRole::join('activity_roles','activity_roles.role_id','department_roles.role_id')
  ->join('metanames','metanames.id','activity_roles.activity_id')
- ->where('department_roles.department_id',$departments->department)
+ ->where('department_roles.department_id',$departments->department_id)
 ->where('activity_roles.status','Active')
- //->join('users','sales.user_id','users.id')
 ->select('metanames.id','metanames.metaname_name')
  ->get();
 
-//dd($userActitivities);
-//$acts =new $userActitivities;
+//dd($userActitivitiesff);
 
     $first = collect($userActitivities);
     $second = collect($userActitivitiesf);   
     $third = collect($userActitivitiesff);
-    //$acts[2]=$userActitivitiesf;  
-   //$acts->push($userActitivitiesf);  
-    //$acts->all();   
-//     $array1 = array("color" => "red", 2, 4);
-// $array2 = array("a", "b", "color" => "green", "shape" => "trapezoid", 4);
-// $acts = array_merge($userActitivities, $userActitivitiesf);
-// //print_r($result); 
 
 $acts = $first->merge($second);
 $acts = $acts->merge($third);
 $acts = $acts->unique('metaname_name');
  //$acts = $acts->groupBy('metaname_name');
-  //dd($unique);
-$pp = property::where('property_name','!=',"")
+// $models = $acts::select('metaname_name');
+ //dd($acts);
+$a=array();
+//$a[]=1;
+
+  foreach ($acts as $act) {
+//$a = array_push($act->id);
+//array_push($a);
+    $a[]=$act->id;
+  }
+
+//$a=array("red","green");
+$a[]=5;
+
+
+
+ $pp = property::where('property_name','!=',"")
+->whereIn('metaname_id',$a)
       ->orderBy('id')->get();
+
+//Query Indicators 
+  $qnsf = setIndicator::where('qns','!=',"")
+  ->orderBy('id')->get();
+//$pp = DB::select('select metaname_id,property_name from properties where metaname_id in(6,1)');
+
+   $qns = qnsAppliedto::join('set_indicators','qns_appliedtos.indicator_id','set_indicators.id')
+   ->where('set_indicators.status','Active')   
+   ->where('set_indicators.qns','!=',"")
+   ->whereIn('qns_appliedtos.metaname_id',$a)
+   ->select('qns_appliedtos.metaname_id','set_indicators.id','set_indicators.qns')
+     ->orderBy('set_indicators.id')->get(); 
+//dd($qns);
 
 $qnsx = DB::select('select * from set_indicators s,qns_appliedtos q,metanames m where s.id=q.indicator_id and m.id=q.metaname_id and q.metaname_id in(13,1)');
    
@@ -302,7 +315,7 @@ $qnsx = DB::select('select * from set_indicators s,qns_appliedtos q,metanames m 
     //dd($metadatasx);
      
       return view('livewire.checklist',compact('metadatas','metanames','pp','qns','userActitivities','acts'))
-      ->layout('livewire.showFrame');
+      ->layout('layouts.app');
 
     //    // return view('livewire.department');
 

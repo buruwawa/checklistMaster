@@ -7,7 +7,8 @@
 						<div class="container-fluid">
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb bg-white mb-0 px-0 py-2">
-									<li class="breadcrumb-item active" aria-current="page">Departments</li>
+									<li class="breadcrumb-item active" aria-current="page">General Settings</li>
+										<li class="breadcrumb-item active" aria-current="page">Departments</li>
 								</ol>
 							</nav>
 						</div>

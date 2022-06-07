@@ -4,11 +4,23 @@
                               <h5   class="text-center">{{ $message }}</h5>
                             </div>
                             @endif
-            <div class="row">
-                  <!-- <h4 class="title font-weight-bold text-center">List of Metaname</h4> -->
-                  <div class="col-xl-12 col-md-12"><h5 class="title font-weight-bold text-center">Assign Indicators to Metaname</h5></div>
 
+ <div class="content d-flex flex-column flex-column-fluid" id="tc_content">
+        <!--begin::Subheader-->
+        <div class="subheader py-2 py-lg-6 subheader-solid">
+            <div class="container-fluid">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-white mb-0 px-0 py-2">
+                        <li class="breadcrumb-item active" aria-current="page">Indicator Settings</li>
+                         <li class="breadcrumb-item active" aria-current="page">Assign Indicators to Metaname:(AIM)</li>
 
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <hr>
+
+           <div class="row container">
 
                 <div class="col-xl-6 col-md-6">                       
                   <h5 class="title font-weight-bold text-center">List of Metaname</h5>                    <div class="card card-custom gutter-b bg-white border-0">

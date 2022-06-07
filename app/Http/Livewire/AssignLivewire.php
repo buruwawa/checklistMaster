@@ -21,13 +21,13 @@ use Illuminate\Http\Request;
 class AssignLivewire extends Component
 {
 
- public $departments = "";
-       public $post;
-      public $message = "";
-      public $pos_id = [];
-      public $metaname_id;
-       public $site_id;
-   public $names=[];
+  public $departments = "";
+  public $post;
+  public $message = "";
+  public $pos_id = [];
+  public $metaname_id;
+  public $site_id;
+  public $names=[];
   public $properties;
 
        public $qnType;
@@ -114,7 +114,7 @@ return redirect()->back()->with('error','Indicators not selected');
            //  session()->flash('message', 'Users Updated Successfully.');
      // return view('livewire.department')->layout('livewire.showFrame');
       return view('livewire.assign-indicator',compact('metadatas','metanames','sites','indicators'))
-      ->layout('livewire.showFrame');
+      ->layout('layouts.app');
 
     //    // return view('livewire.department');
 

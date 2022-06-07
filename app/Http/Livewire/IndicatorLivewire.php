@@ -133,7 +133,7 @@ $qn_no=$this->qn_no;
            //  session()->flash('message', 'Users Updated Successfully.');
      // return view('livewire.department')->layout('livewire.showFrame');
       return view('livewire.indicator',compact('metadatas','metanames','sites','qn_no'))
-      ->layout('livewire.showFrame');
+      ->layout('layouts.app');
 
     //    // return view('livewire.department');
 

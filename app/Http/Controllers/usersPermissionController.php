@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\myCompany;
 use App\Models\myPayment;
+use App\Models\department;
+use App\Models\userRole;
+
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -20,15 +23,17 @@ class usersPermissionController extends Controller
     public function index()
     {
         //
-        $datas= User::get();
-     // dd($datas);
+         $users= User::get();
+         $departments= department::get();
+     //dd($users);
 
-        $user = User::join('model_has_roles','users.id','model_has_roles.model_id')
-        ->join('roles','model_has_roles.role_id','roles.id')
-        ->select('roles.name as role_name','model_has_roles.model_id as model_id','users.*')
+        $user = User::join('user_roles','users.id','user_roles.sys_user_id')
+        ->join('roles','user_roles.role_id','roles.id')
+        ->where('user_roles.status','Active')
+        ->select('roles.name as role_name','user_roles.sys_user_id as sys_user_id','user_roles.id as arole_id','users.*')
         ->get();
 
-
+//dd($user);
 
         $permissions = User::join('model_has_permissions','users.id','model_has_permissions.model_id')
         ->join('permissions','model_has_permissions.permission_id','permissions.id')
@@ -38,7 +43,7 @@ class usersPermissionController extends Controller
         $roles = Role::get();
         $limitation = myPayment::latest()->first();
 
-        return view('admin.settings.users.users',compact('datas','user','permissions','permit','roles','limitation'));
+        return view('admin.settings.users.users',compact('users','user','permissions','permit','roles','limitation','departments'));
     }
 
     /**
@@ -59,11 +64,9 @@ class usersPermissionController extends Controller
      */
     public function store(Request $request)
     {
-
         $user_id = User::where('id',request('users_id'))->first();
         $user_id->assignRole(request('roles'));
         return redirect()->back()->with('success','Role added successfly');
-
     }
 
     /**
@@ -102,6 +105,19 @@ class usersPermissionController extends Controller
             $user->removeRole($role);
             return redirect()->back()->with('success','Role removed successfly');
         }
+
+
+          public function recoveryUpdate(user $department,$id)
+    {
+        //dd('dd');
+          $user = user::where('id',$id)
+               ->update([
+                'department_id'=>"",
+                 'user_id'=>auth()->id()
+
+              ]);
+       return redirect()->back()->with('success','Department recovered successfly');
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -124,14 +140,22 @@ class usersPermissionController extends Controller
     {
         //
         if(request('role')){
-            $user = User::findorfail($id);
-            if($user->removeRole(request('role'))){
-                return redirect()->back()->with('success','role has been revoked successefuly');
-            }
-            else{
-                return redirect()->back()->with('error','role can not be revoked');
-            }
+            //dd($id);
+            // $user = User::findorfail($id);
+            // if($user->removeuserRole(request('role'))){
+            //     return redirect()->back()->with('success','role has been revoked successefuly');
+            // }
+            // else{
+            //     return redirect()->back()->with('error','role can not be revoked');
+            // }
+            $user = userRole::where('id',$id)
+               ->update([
+                'status'=>"Inactive",
+                 'user_id'=>auth()->id()
+              ]);
+      return redirect()->back()->with('success','role has been revoked successefuly');
         }
+
          if(request('permission')){
             $user = User::findorfail($id);
             if($user->revokePermissionTo(request('permission'))){
@@ -148,8 +172,6 @@ class usersPermissionController extends Controller
            return redirect()->back()->with('success','User Deleted Successfuly');
        }
     }
-
-
 
     }
 }
