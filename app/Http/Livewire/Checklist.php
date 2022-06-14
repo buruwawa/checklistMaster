@@ -10,6 +10,7 @@ use App\Models\metadata;
 use App\Models\metanameDatatype;
 use App\Models\site;
 use App\Models\metaname;
+use App\Models\datatype;
 
 use App\Models\setIndicator;
 use App\Models\qnsAppliedto;
@@ -282,19 +283,21 @@ $a=array();
 //$a[]=1;
 
   foreach ($acts as $act) {
-//$a = array_push($act->id);
-//array_push($a);
     $a[]=$act->id;
   }
 
-//$a=array("red","green");
-$a[]=5;
+//  $pp = property::where('property_name','!=',"")
+// ->whereIn('metaname_id',$a)
+//       ->orderBy('id')->get();
 
-
-
- $pp = property::where('property_name','!=',"")
-->whereIn('metaname_id',$a)
-      ->orderBy('id')->get();
+   $pp = property::join('user_sites','user_sites.site_id','properties.site_id')
+   ->where('properties.status','Active')   
+   ->where('properties.property_name','!=',"")
+   ->where('user_sites.sys_user_id',auth()->id())
+   ->whereIn('properties.metaname_id',$a)
+   ->select('properties.id','properties.metaname_id','properties.property_name')
+     ->orderBy('properties.id')->get();
+//dd($pp);
 
 //Query Indicators 
   $qnsf = setIndicator::where('qns','!=',"")
@@ -314,7 +317,16 @@ $qnsx = DB::select('select * from set_indicators s,qns_appliedtos q,metanames m 
  $metadatasx = DB::select('select * from optional_answers where indicator_id in(select q.indicator_id from set_indicators s,qns_appliedtos q,metanames m where s.id=q.indicator_id and q.metaname_id in(13,1))');
     //dd($metadatasx);
      
-      return view('livewire.checklist',compact('metadatas','metanames','pp','qns','userActitivities','acts'))
+
+  // $metadatas = metadata::where('status','Active')
+  //         ->orWhere('status','Stop')
+  //         ->get();
+          $datatypes = datatype::get();
+    
+        //return view('admin.settings.metadata.metadata',compact('metadatas','datatypes'));
+
+
+      return view('livewire.checklist',compact('metadatas','datatypes','metanames','pp','qns','userActitivities','acts'))
       ->layout('layouts.app');
 
     //    // return view('livewire.department');

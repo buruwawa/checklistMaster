@@ -22,7 +22,8 @@
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-lg-12 col-xl-12">
-                                            <div class="card card-custom gutter-b bg-transparent shadow-none border-0" >
+                                           <!--  <div class="card card-custom gutter-b bg-transparent shadow-none border-0" > -->
+                                                  <div class="card card-custom bg-transparent shadow-none border-1" >
                                                 <div class="card-header align-items-center  border-bottom-dark px-0">
                                                     <div class="card-title mb-0">
                                                         <h3 class="card-label mb-0 font-weight-bold text-body">User List
@@ -235,7 +236,7 @@
 
 
 
-    <div  class="offcanvas offcanvas-right kt-color-panel p-5 kt_notes_panel">
+    <div  class="offcanvas offcanvas-right kt-color-panel p-1 kt_notes_panel">
         <div class="offcanvas-header d-flex align-items-center justify-content-between pb-3">
             <h4 class="font-size-h4 font-weight-bold m-0">Register user
             </h4>
@@ -246,8 +247,9 @@
             </a>
         </div>
       
+        <div class="row col-xl-12 col-md-12"> 
+<div class="card-body"  style="background-color:#b2ca5d !important">
 <x-guest-layout>
-    <x-jet-authentication-card>
  <form method="POST" action="{{ route('user-register.store') }}">
             @csrf
 
@@ -320,9 +322,9 @@
                 </x-jet-button>
             </div>
         </form>
-    </x-jet-authentication-card>
 </x-guest-layout>
-
+</div>
+</div>
     </div>
     <iframe name="print_frame" width="0" height="0"  src="about:blank"></iframe>
 

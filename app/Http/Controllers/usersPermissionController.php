@@ -6,6 +6,8 @@ use App\Models\myCompany;
 use App\Models\myPayment;
 use App\Models\department;
 use App\Models\userRole;
+use App\Models\userSite;
+use App\Models\site;
 
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -25,21 +27,28 @@ class usersPermissionController extends Controller
         //
          $users= User::get();
          $departments= department::get();
-     //dd($users);
-
+    
         $user = User::join('user_roles','users.id','user_roles.sys_user_id')
         ->join('roles','user_roles.role_id','roles.id')
         ->where('user_roles.status','Active')
         ->select('roles.name as role_name','user_roles.sys_user_id as sys_user_id','user_roles.id as arole_id','users.*')
         ->get();
 
-//dd($user);
 
-        $permissions = User::join('model_has_permissions','users.id','model_has_permissions.model_id')
-        ->join('permissions','model_has_permissions.permission_id','permissions.id')
-        ->select('permissions.name as permission_name','model_has_permissions.model_id as model_id','users.*')
+        // $permissions = User::join('model_has_permissions','users.id','model_has_permissions.model_id')
+        // ->join('permissions','model_has_permissions.permission_id','permissions.id')
+        // ->select('permissions.name as permission_name','model_has_permissions.model_id as model_id','users.*')
+        // ->get();
+
+  $permissions = userSite::join('sites','user_sites.site_id','sites.id')
+       ->where('user_sites.status','Active')
+        ->select('sites.id as id','user_sites.sys_user_id as model_id','sites.site_name as permission_name')
         ->get();
-        $permit = Permission::get();
+
+ //$usersites = userSite::get();
+//dd($permissions);
+
+        $permit = site::get();
         $roles = Role::get();
         $limitation = myPayment::latest()->first();
 
@@ -88,8 +97,6 @@ class usersPermissionController extends Controller
      */
     public function edit($id)
     {
-        //
-
         $datas = User::where('id',$id)->first();
         $roles= Role::get();
         // $myroles = $datas->getRoleNames();
@@ -109,7 +116,6 @@ class usersPermissionController extends Controller
 
           public function recoveryUpdate(user $department,$id)
     {
-        //dd('dd');
           $user = user::where('id',$id)
                ->update([
                 'department_id'=>"",
@@ -157,8 +163,18 @@ class usersPermissionController extends Controller
         }
 
          if(request('permission')){
-            $user = User::findorfail($id);
-            if($user->revokePermissionTo(request('permission'))){
+           // dd(request('siteid'));
+            $userSite = userSite::where('sys_user_id',$id)
+            ->where('site_id',request('siteid'))
+            ->first();
+
+//dd($userSite->id);
+        if($userSite){
+                 $userSite->update([
+            'status'=>'Inactive',
+             'user_id'=>auth()->id()
+           ]);
+
                 return redirect()->back()->with('success','role has been revoked successefuly');
             }
             else{
@@ -173,5 +189,5 @@ class usersPermissionController extends Controller
        }
     }
 
-    }
+ }
 }

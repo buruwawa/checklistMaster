@@ -36,8 +36,8 @@
    @isset($metanames)
       @foreach($metanames as $metaname)
       <div class="row">
-      <div class="col-xl-9 col-md-9">{{$metaname->metaname_name}}</div>
-     <div class="col-xl-3 col-md-3"><input type="checkbox" name="metanames[]" value="{{$metaname->id}}"></div>                     
+      <div class="col-xl-5 col-md-5 col-sm-5">{{$metaname->metaname_name}}</div>
+     <div class="col-xl-2 col-md-2 col-sm-5"><input type="checkbox" name="metanames[]" value="{{$metaname->id}}"></div>                     
    </div> 
    @endforeach 
    @endisset  

@@ -37,6 +37,7 @@ use App\Http\Livewire\AssignRolesUserLivewire;
 
 use App\Http\Livewire\ActivityRolesLivewire;
 use App\Http\Livewire\Checklist;
+use App\Http\Livewire\DashChecklist;
 use App\Http\Livewire\UserActivityLivewire;
 
 use App\Http\Livewire\Showfinal;
@@ -49,11 +50,17 @@ use App\Http\Controllers\ImportExportController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\rolesController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\reportTestController;
 
 use App\Http\Controllers\MetadataController;
 use App\Http\Controllers\MetanameController;
 use App\Http\Controllers\siteController;
 use App\Http\Controllers\UserRegisterController;
+
+ use JasperPHP\JasperPHP as JasperPHP;
+ use PHPJasper\PHPJasper;
+
+// require __DIR__ . '/vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +72,53 @@ use App\Http\Controllers\UserRegisterController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+  Route::group(['middleware' => ['auth','Admin']], function() {
+
+Route::get('reportx/{x}/d/{y}',[ReportTestController::class,'viewreport'])->name('reportx');
+Route::get('jrf',[ReportTestController::class,'jrf'])->name('jrf');
+  // Route::get('report/{report}', 'ReportTestController@viewreport')->name('report.show');
+  Route::resource('yyy', ReportTestController::class);
+
+Route::get('/javaf', function () {
+
+$input ='../vendor/geekcom/phpjasper/examples/hello_world.jasper';   
+
+$jasper = new PHPJasper;
+//dd('PHPJasper\Exception');
+
+$jasper->compile($input)->output();
+
+ });
+});
+//END OF GROUP FUNCTIONS
+
+
+Route::get('/java', function () {
+    
+            $jasper = new JasperPHP;
+       
+            // Compile a JRXML to Jasper
+        $t=  $jasper->compile( '../vendor/geekcom/jasperphp/examples/location.jrxml')->output();
+           //$jasper->compile(__DIR__ . '/../../vendor/geekcom/jasperphp/examples/hello_world.jrxml')->execute();
+          //dd('ncn');
+
+        //var_dump($t);
+     
+            // Process a Jasper file to PDF and RTF (you can use directly the .jrxml)
+            $jasper->process('/../vendor/geekcom/jasperphp/examples/hello_world.jrxml',
+                false,
+                array("pdf", "rtf"),
+                array("php_version" => "7.3")
+            )->output('D');
+        
+            // // List the parameters from a Jasper file.
+            // $array = $jasper->list_parameters(
+            //     '/home/midhun/hi/hello.jrxml'
+            // )->execute();
+            // var_dump($array);
+            //return view('welcome');
+        });
 
 // Route::resource('render',Department::class)->name('render');
 // Route::post('livewirex/{post}',Department::class)->name('livewirex');
@@ -98,6 +152,7 @@ Route::get('user-activity/{id}',UserActivityLivewire::class)->name('user-activit
 Route::resource('user-activity',UserActivityLivewire::class)->middleware(['role:Admin|Store']);
  //Checklist
   Route::get('checklist/{id}',Checklist::class)->name('checklist');
+   Route::get('dashboard-checklist/{id}',DashChecklist::class)->name('checklist');
   Route::resource('checklist', Checklist::class)->middleware(['role:Admin|Store']);
   //End of Checklist
 
@@ -148,6 +203,7 @@ Route::resource('companyvalue',companyValueController::class);
 Route::resource('admin', adminController::class);
 Route::resource('warehouse', warehouseController::class)->middleware(['role:Admin']);
 Route::resource('users', usersPermissionController::class)->middleware(['role:SuperAdmin|GeneralAdmin|Admin|Account']);
+
 Route::get('update-user-department/{id}',[usersPermissionController::class,'recoveryUpdate'])->name('update-user-department');
 
 Route::resource('suppliers', supplierController::class)->middleware(['role:Admin']);
@@ -195,7 +251,15 @@ Route::get('filter-sales',[reportController::class,'filtersales'])->name('filter
 Route::get('purchases',[reportController::class,'filterPurchase'])->name('purchases');
 Route::get('customersales/{id}',[reportController::class,'customersale'])->name('customersales');
 
+Route::get('transaction-report',[reportController::class,'transaction_report'])->name('transaction-report');
+Route::get('transactions/{id}',[reportController::class,'transactions'])->name('transactions');
+Route::get('transaction-filter',[reportController::class,'transaction_filter'])->name('transaction-filter');
+
 Route::resource('report-action', reportController::class);
+Route::resource('print', reportTestController::class);
+//Route::get('report/{id}', 'ReportTestController@viewreport')->name('report.show');
+Route::get('print/{id}',[reportTestController::class, 'show'])->name('print.show');
+//Route::get('print/{id}',[reportTestController::class, 'jrf'])->name('jrf');
 
 // Stock Report Controllers
 Route::resource('stock-reports', reportStockController::class);
@@ -210,9 +274,6 @@ Route::get('/filter-purchase',[reportFinanceController::class, 'purchaseFilter']
 Route::get('sold/{id}',[reportFinanceController::class, 'sold'])->name('sold');
 Route::get('instock/{id}',[reportFinanceController::class, 'instock'])->name('instock');
 
-Route::get('transaction-report',[reportController::class,'transaction_report'])->name('transaction-report');
-Route::get('transactions/{id}',[reportController::class,'transactions'])->name('transactions');
-Route::get('transaction-filter',[reportController::class,'transaction_filter'])->name('transaction-filter');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return redirect()->route('admin.index');

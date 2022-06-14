@@ -39,85 +39,19 @@ class adminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+ public function index()
     {
-        $url = request()->getHost();
-        $common_domain = substr($url, 0, 3);
-
-      if($common_domain == "www"){
-          $domain = substr($url,4);
-      }
-      else{
-           $domain = $url;
-      }
-
-        // $tenant= tenant::where('status','Active')->where('domain',$domain)->first();
-        $tenant= DB::connection('landlord')->table('tenants')->where('tenant_status','Active')->where('domain',$domain)->first();
-       $package= package::where('tenant_id',$tenant->id)->latest()->first();
-        if($tenant){
-            $mycompany = myCompany::first();
-            $mypayment = myPayment::latest()->first();
-
-            if($mycompany){
-                // do nothing
-
-            }
-            else{
-                $create_company = myCompany::create([
-                'company_name'=>$tenant->name,
-                'logo'=>'',
-                'address'=>$tenant->address,
-                'phone_number'=>$tenant->phone_number,
-                'package'=>$tenant->package,
-                'status'=>$tenant->status,
-                'limit_users'=>$tenant->limit_shops,
-                'limit_shops'=>$tenant->limit_shops,
-                'tin'=>$tenant->tin,
-                'vrn'=>$tenant->vrn,
-                'email'=>$tenant->email,
-                'start_from'=>$tenant->start_from,
-                'renew_at'=>$tenant->renew_at
-            ]);
-            }
-            if($mypayment){
-                if($package->id != $mypayment->invoice_number){
-                    $create_payement = myPayment::create([
-                        'invoice_number'=>$package->id,
-                        'my_id'=>$package->tenant_id,
-                        'package_name'=>$package->package_name,
-                        'amount_paid'=>$package->amount_paid,
-                        'transaction_id'=>$package->transaction_id,
-                        'paid_via'=>$package->paid_via_phone,
-                        'start_from'=>$package->start_from,
-                        'end_at'=>$package->end_at,
-                        'limit_shop'=>$package->end_at,
-                        'limit_user'=>$package->end_at,
-                        'status'=>$package->status,
-                ]);
-                }
-            }
-            else{
-                $create_payement = myPayment::create([
-                    'invoice_number'=>$package->id,
-                    'my_id'=>$package->tenant_id,
-                    'package_name'=>$package->package_name,
-                    'amount_paid'=>$package->amount_paid,
-                    'transaction_id'=>$package->transaction_id,
-                    'paid_via'=>$package->paid_via_phone,
-                    'start_from'=>$package->start_from,
-                    'end_at'=>$package->end_at,
-                    'status'=>$package->status,
-                ]);
-            }
-
-
-        $now = Carbon::now();
+       if(auth())
+       {
+           $now = Carbon::now();
         $weekStartDate = $now->startOfWeek()->format('Y-m-d H:i');
         $weekEndDate = $now->endOfWeek()->format('Y-m-d H:i');
         $user = User::where('id',auth()->id())->first();
         $users= User::get();
         $user->hasRole('Admin');
-        //dd($user->role);
+        //dd($user);
+
+//ADD ROLE FOR THE FIRST TIME
         if($users->count()<=1 && $user->hasRole('Admin') == 0){
             // Create and assign user to be admin
                 if(Role::where('name',request('name'))->exists()){
@@ -159,8 +93,10 @@ class adminController extends Controller
             'user_id'=>auth()->id() ]);
         };
 
-        if($user->hasRole('Admin|Account|SuperAdmin')){
 
+//IF THE USER HAS ADMIN PRIVILEDGES
+     if($user->hasRole('Admin|Account|SuperAdmin')){
+            //dd('nn');
         $themonthly = sale::select([
             DB::raw('SUM(amount) as monthly_sales'),
             DB::raw('SUM(paid) as monthly_cash'),
@@ -354,12 +290,12 @@ class adminController extends Controller
         'sessions'
     ));
 
-            }
+}
 
 
-            // sales users
+       // sales users
         if($user->hasRole('Sales')){
-
+//dd('sales');
         $themonthly = sale::select([
             DB::raw('SUM(amount) as monthly_sales'),
             DB::raw('SUM(paid) as monthly_cash'),
@@ -476,6 +412,466 @@ class adminController extends Controller
         'weekly_profits'
     ));
 }
+
+
+if($user->hasRole('Store')){
+    return redirect()->route('stocking.index');
+}
+elseif($user->hasRole('')){
+    return "Sorry you are not permitted to access this system";
+}
+
+
+       }
+       else
+       {
+         Auth::logout();
+       }
+
+    }
+
+
+    public function indexOrg()
+    {
+        $url = request()->getHost();
+        $common_domain = substr($url, 0, 3);
+
+      if($common_domain == "www"){
+          $domain = substr($url,4);
+      }
+      else{
+           $domain = $url;
+      }
+
+        // $tenant= tenant::where('status','Active')->where('domain',$domain)->first();
+        $tenant= DB::connection('landlord')->table('tenants')->where('tenant_status','Active')->where('domain',$domain)->first();
+       $package= package::where('tenant_id',$tenant->id)->latest()->first();
+        if($tenant){
+            $mycompany = myCompany::first();
+            $mypayment = myPayment::latest()->first();
+
+            if($mycompany){
+                // do nothing
+
+            }
+            else{
+                $create_company = myCompany::create([
+                'company_name'=>$tenant->name,
+                'logo'=>'',
+                'address'=>$tenant->address,
+                'phone_number'=>$tenant->phone_number,
+                'package'=>$tenant->package,
+                'status'=>$tenant->status,
+                'limit_users'=>$tenant->limit_shops,
+                'limit_shops'=>$tenant->limit_shops,
+                'tin'=>$tenant->tin,
+                'vrn'=>$tenant->vrn,
+                'email'=>$tenant->email,
+                'start_from'=>$tenant->start_from,
+                'renew_at'=>$tenant->renew_at
+            ]);
+            }
+            if($mypayment){
+                if($package->id != $mypayment->invoice_number){
+                    $create_payement = myPayment::create([
+                        'invoice_number'=>$package->id,
+                        'my_id'=>$package->tenant_id,
+                        'package_name'=>$package->package_name,
+                        'amount_paid'=>$package->amount_paid,
+                        'transaction_id'=>$package->transaction_id,
+                        'paid_via'=>$package->paid_via_phone,
+                        'start_from'=>$package->start_from,
+                        'end_at'=>$package->end_at,
+                        'limit_shop'=>$package->end_at,
+                        'limit_user'=>$package->end_at,
+                        'status'=>$package->status,
+                ]);
+                }
+            }
+            else{
+                $create_payement = myPayment::create([
+                    'invoice_number'=>$package->id,
+                    'my_id'=>$package->tenant_id,
+                    'package_name'=>$package->package_name,
+                    'amount_paid'=>$package->amount_paid,
+                    'transaction_id'=>$package->transaction_id,
+                    'paid_via'=>$package->paid_via_phone,
+                    'start_from'=>$package->start_from,
+                    'end_at'=>$package->end_at,
+                    'status'=>$package->status,
+                ]);
+            }
+
+
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d H:i');
+        $weekEndDate = $now->endOfWeek()->format('Y-m-d H:i');
+        $user = User::where('id',auth()->id())->first();
+        $users= User::get();
+        $user->hasRole('Admin');
+        //dd//($user->role);
+        if($users->count()<=1 && $user->hasRole('Admin') == 0){
+            // Create and assign user to be admin
+                if(Role::where('name',request('name'))->exists()){
+                    return redirect()->back()->with('error','This role already created');
+                }
+                else{
+            $role = Role::create(['name' => 'SuperAdmin']);
+            $role = Role::create(['name' => 'GeneralAdmin']);
+               $role = Role::create(['name' => 'Admin']);
+            $role = Role::create(['name' => 'Sales']);
+            $role = Role::create(['name' => 'Store']);
+            $role = Role::create(['name' => 'Account']);
+            $role = Role::create(['name' => 'User']);
+            //assign admin role
+            $user->assignRole('Admin');
+                }
+            //create master accounts
+            $super_admin = User::create([
+                'name' =>'GeneralAdmin',
+                'email' =>'admin@pasah.net',
+                'password' => Hash::make('pasah12345!')
+            ]);
+            // Assign role to super admin
+            $super_admin->assignRole('Admin');
+            // Create main account
+            $account  = account::create([
+                'account_name'=>'Main Account',
+                'descriptions'=>'Main cash account',
+                'main_account'=>1,
+                'user_id'=>auth()->id()
+            ]);
+            // Create main warehouse
+            $store = warehouse::create(
+                [
+            'warehouse'=>'Main warehouse',
+            'location'=>'HQ',
+            'main_warehouse'=>1,
+            'descriptions'=>'All items from supplier is stored here before issuing to the shop',
+            'user_id'=>auth()->id() ]);
+        };
+
+
+
+
+        if($user->hasRole('Admin|Account|SuperAdmin')){
+            dd('nn');
+        $themonthly = sale::select([
+            DB::raw('SUM(amount) as monthly_sales'),
+            DB::raw('SUM(paid) as monthly_cash'),
+            DB::raw('SUM(balance) as monthly_balance'),
+            ])
+        ->where('status','!=','Deleted')
+        ->whereBetween('created_at',
+        [Carbon::now()->startOfMonth(),
+        Carbon::now()->endOfMonth()])
+        ->first();
+
+        $themonthlypaid = payment::select([
+            DB::raw('SUM(paid) as paid_cash')
+            ])
+            ->where('status','!=','Deleted')
+            ->whereBetween('created_at',
+            [Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth()])
+            ->first();
+
+
+
+        $theweekly = sale::select([
+            DB::raw('SUM(amount) as weekly_sales'),
+            DB::raw('SUM(paid) as weekly_cash'),
+            DB::raw('SUM(balance) as weekly_balance'),
+            ])
+            ->where('status','!=','Deleted')
+        ->whereBetween('created_at',
+        [$weekStartDate,
+        $weekEndDate])
+        ->first();
+
+      $theweeklypaid = payment::select([
+            DB::raw('SUM(paid) as paid_cash')
+            ])
+            ->where('status','!=','Deleted')
+            ->whereBetween('created_at',
+            [$weekStartDate,
+            $weekEndDate])
+            ->first();
+
+
+            // profits
+            $monthly_profits = sale::join('order_items','order_items.order_id','sales.order_id')
+            ->join('stocks','stocks.id','order_items.item_id')
+            ->select([
+                DB::raw('SUM(order_items.qty*order_items.buying_price)total_buying'),
+                DB::raw('SUM(order_items.qty*order_items.selling_price)total_selling')
+                 ])
+                 ->where('sales.status','!=','Deleted')
+                 ->whereBetween('sales.created_at',
+                 [Carbon::now()->startOfMonth(),
+                 Carbon::now()->endOfMonth()])
+                 ->first();
+
+            $weekly_profits = sale::join('order_items','order_items.order_id','sales.order_id')
+            ->join('stocks','stocks.id','order_items.item_id')
+            ->select([
+            DB::raw('SUM(order_items.qty*order_items.buying_price)total_buying'),
+            DB::raw('SUM(order_items.qty*order_items.selling_price)total_selling')
+                 ])
+                 ->where('sales.status','!=','Deleted')
+                 ->whereBetween('sales.created_at',
+            [$weekStartDate,$weekEndDate])->first();
+
+            $daily_profits = sale::join('order_items','order_items.order_id','sales.order_id')
+            ->join('stocks','stocks.id','order_items.item_id')
+            ->select([
+            DB::raw('SUM(order_items.qty*order_items.buying_price)total_buying'),
+            DB::raw('SUM(order_items.qty*order_items.selling_price)total_selling')
+            ])
+            ->where('sales.status','!=','Deleted')
+            ->whereDate('sales.created_at',Carbon::today())
+            ->first();
+
+
+
+        $thedaily = sale::select([
+        DB::raw('SUM(amount) as daily_sales'),
+        DB::raw('SUM(paid) as daily_cash'),
+        DB::raw('SUM(balance) as daily_balance'),
+        ])
+        ->where('status','!=','Deleted')
+        ->whereDate('created_at',Carbon::today())
+        ->first();
+
+          $thedailypaid = payment::select([
+            DB::raw('SUM(paid) as paid_cash')
+            ])
+            ->where('status','!=','Deleted')
+            ->whereDate('created_at',Carbon::today())
+            ->first();
+
+        $top_shop = order::
+           join('warehouses','warehouses.id','orders.warehouse_id')
+           ->join('sales','sales.order_id','orders.id')
+           ->select('orders.*','warehouses.warehouse',
+                DB::raw('count(sales.id)sales_count'),
+                DB::raw('SUM(sales.amount)total_selling')
+                )
+            ->orderby('total_selling','Desc')
+           ->groupby('orders.warehouse_id')
+           ->whereBetween('orders.created_at',
+           [Carbon::now()->startOfMonth(),
+           Carbon::now()->endOfMonth()])
+           ->first();
+
+           $top_customer =  order::
+           join('customers','customers.id','orders.customer_id')
+           ->join('sales','sales.order_id','orders.id')
+           ->select('orders.*','customers.customer_name',
+                DB::raw('count(sales.id)sales_count'),
+                DB::raw('SUM(sales.amount)total_selling')
+                )
+            ->orderby('total_selling','Desc')
+           ->groupby('orders.customer_id')
+           ->whereBetween('orders.created_at',
+           [Carbon::now()->startOfMonth(),
+           Carbon::now()->endOfMonth()])
+           ->first();
+
+            $top_product =  orderItem::
+           join('stocks','stocks.id','order_items.item_id')
+           ->select('order_items.*','stocks.item',
+            DB::raw('count(order_items.item_id)item_count'),
+            DB::raw('SUM(order_items.qty)total_qty'),
+            DB::raw('SUM(order_items.qty * order_items.selling_price )total_value'))
+           ->groupby('order_items.item_id')
+           ->whereBetween('order_items.created_at',
+           [Carbon::now()->startOfMonth(),
+           Carbon::now()->endOfMonth()])
+           ->orderby('total_qty','Desc')
+           ->first();
+
+           $main_warehouse = warehouse::where('main_warehouse',1)->first();
+
+           $stock_alert = stock::join('sub_stores','stocks.id','sub_stores.item_id')
+           ->where('sub_stores.warehouse',$main_warehouse->id)
+           ->orderby('sub_stores.current_qty','Asc')
+           ->get();
+
+            $overdue = sale::select([
+            DB::raw('SUM(amount) as monthly_sales'),
+            DB::raw('count(id) as overdue_count'),
+            DB::raw('SUM(balance) as total_due'),
+            ])
+            ->where('balance','>',0)
+            ->where('status','!=','Deleted')
+            ->first();
+
+            $payable = purchaseOrder::
+            select([
+            DB::raw('COUNT(id) as total_count'),
+            DB::raw('SUM(balance) as total_balance')
+            ])
+            ->where('purchase_orders.balance','>',0)
+            ->where('payment','Purchased')
+            ->first();
+
+
+        $collection_daily = $thedailypaid->paid_cash - $thedaily->daily_cash;
+        $collection_weekly = $theweeklypaid->paid_cash - $theweekly->weekly_cash;
+        $collection_monthly =  $themonthlypaid->paid_cash - $themonthly->monthly_cash ;
+
+        $pending_orders = order::where('status','Pending')
+        ->select(
+        DB::raw('COUNT(id) as orders_count')
+        )->first();
+
+        $sessions = session::join('users','users.id','sessions.user_id')
+        ->groupby('sessions.user_id')
+        ->get();
+
+        return view('admin.index',compact(
+        'pending_orders','thedaily',
+        'thedailypaid',
+        'collection_daily',
+        'collection_weekly',
+        'collection_monthly',
+        'theweekly','themonthly',
+        'daily_profits',
+        'monthly_profits',
+        'weekly_profits',
+        'top_shop',
+        'top_customer',
+        'top_product',
+        'stock_alert',
+        'overdue',
+        'payable',
+        'sessions'
+    ));
+
+}
+
+
+            // sales users
+        if($user->hasRole('Sales')){
+//dd('sales');
+        $themonthly = sale::select([
+            DB::raw('SUM(amount) as monthly_sales'),
+            DB::raw('SUM(paid) as monthly_cash'),
+            DB::raw('SUM(balance) as monthly_balance'),
+            ])
+            ->where('status','!=','Deleted')
+        ->where('user_id',auth()->id())
+        ->whereBetween('created_at',
+        [Carbon::now()->startOfMonth(),
+        Carbon::now()->endOfMonth()])
+        ->first();
+
+        $monthly_profits = sale::join('order_items','order_items.order_id','sales.order_id')
+        ->join('stocks','stocks.id','order_items.item_id')
+        ->select([
+            DB::raw('SUM(order_items.qty*stocks.price)total_buying'),
+            DB::raw('SUM(order_items.qty*stocks.selling_price)total_selling')
+             ])
+             ->where('sales.status','!=','Deleted')
+             ->where('sales.user_id',auth()->id())
+             ->whereBetween('sales.created_at',
+
+             [Carbon::now()->startOfMonth(),
+             Carbon::now()->endOfMonth()])
+             ->first();
+
+        $themonthlypaid = payment::select([
+            DB::raw('SUM(paid) as paid_cash')
+            ])
+            ->where('status','!=','Deleted')
+            ->where('user_id',auth()->id())
+            ->whereBetween('created_at',
+            [Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth()])
+            ->first();
+
+        $theweekly = sale::select([
+            DB::raw('SUM(amount) as weekly_sales'),
+            DB::raw('SUM(paid) as weekly_cash'),
+            DB::raw('SUM(balance) as weekly_balance'),
+            ])
+            ->where('status','!=','Deleted')
+            ->where('status','!=','Deleted')
+        ->where('user_id',auth()->id())
+        ->whereBetween('created_at',
+        [$weekStartDate,
+        $weekEndDate])
+        ->first();
+
+        $theweeklypaid = payment::select([
+            DB::raw('SUM(paid) as paid_cash')
+            ])
+            ->where('status','!=','Deleted')
+            ->where('user_id',auth()->id())
+            ->whereBetween('created_at',
+            [$weekStartDate,
+            $weekEndDate])
+            ->first();
+
+            $weekly_profits = sale::join('order_items','order_items.order_id','sales.order_id')
+            ->join('stocks','stocks.id','order_items.item_id')
+            ->select([
+                  DB::raw('SUM(order_items.qty*stocks.price)total_buying'),
+                 DB::raw('SUM(order_items.qty*stocks.selling_price)total_selling')
+                 ])
+                 ->where('sales.status','!=','Deleted')
+                 ->where('sales.user_id',auth()->id())
+                 ->whereBetween('sales.created_at',
+            [$weekStartDate,
+            $weekEndDate])
+                 ->first();
+
+        $thedaily = sale::select([
+        DB::raw('SUM(amount) as daily_sales'),
+        DB::raw('SUM(paid) as daily_cash'),
+        DB::raw('SUM(balance) as daily_balance'),
+        ])
+        ->where('status','!=','Deleted')
+        ->where('user_id',auth()->id())
+        ->whereDate('created_at',Carbon::today())
+        ->first();
+
+        $daily_profits = sale::join('order_items','order_items.order_id','sales.order_id')
+        ->join('stocks','stocks.id','order_items.item_id')
+        ->select([
+              DB::raw('SUM(order_items.qty*stocks.price)total_buying'),
+             DB::raw('SUM(order_items.qty*stocks.selling_price)total_selling')
+             ])
+             ->where('sales.user_id',auth()->id())
+             ->whereDate('sales.created_at',Carbon::today())
+             ->first();
+
+        $thedailypaid = payment::select([
+            DB::raw('SUM(paid) as paid_cash')
+            ])
+            ->where('status','!=','Deleted')
+            ->where('user_id',auth()->id())
+            ->whereDate('created_at',Carbon::today())
+            ->first();
+        $collection_daily = $thedailypaid->paid_cash - $thedaily->daily_cash;
+        $collection_weekly = $theweeklypaid->paid_cash - $theweekly->weekly_cash;
+        $collection_monthly = $themonthlypaid->paid_cash - $themonthly->monthly_cash;
+        $pending_orders = order::where('status','Pending')->count();
+
+        return view('admin.index',compact(
+        'pending_orders','thedaily',
+        'thedailypaid',
+        'collection_daily',
+        'collection_weekly',
+        'collection_monthly',
+        'theweekly','themonthly',
+        'daily_profits',
+        'monthly_profits',
+        'weekly_profits'
+    ));
+}
+
 if($user->hasRole('Store')){
     return redirect()->route('stocking.index');
 }

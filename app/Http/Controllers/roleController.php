@@ -7,6 +7,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use App\Models\userRole;
+use App\Models\userSite;
 
 use App\Models\registerProgram;
 use App\Models\warehouse;
@@ -52,7 +53,6 @@ class roleController extends Controller
     {
         //
         if(request('role')){
-           
             if(Role::where('name',request('name'))->exists()){
                 return redirect()->back()->with('error','This role already created');
             }
@@ -65,14 +65,13 @@ class roleController extends Controller
             if(Permission::where('name',request('name'))->exists()){
                 return redirect()->back()->with('error','This permission already created');
             }
-            else{
+            else{ 
             $permission = Permission::create(['name' => request('name')]);
             return redirect()->back()->with('success','Permission created successefuly');
             }
         }
         elseif(request('addrole')){
 
-                 // dd(request('role_name'));
                  // $user = User::where('id',request('user_id'))->first();
                  // $user->assignRole(request('role_name'));
                  // return redirect()->back()->with('success','Role assigned successefuly');
@@ -111,17 +110,31 @@ class roleController extends Controller
         }
 
         elseif(request('roletopermission')){
+            
             $role = Role::where('id',request('role_id'))->first();
             $permission = Permission::where('id',request('permission_id'))->first();
             $role->givePermissionTo($permission);
             return redirect()->back()->with('success','Permission given to the role successefuly');
         }
         elseif(request('permission_to_assign')){
+         //dd(request('permission_to_assign'));
             $user = User::findorfail(request('user_id'));
-            $user->givePermissionTo(request('permission_to_assign'));
-            return redirect()->back()->with('success','Permission given to the user successefuly');
+           // dd($user);
+       // $user->givePermissionTo(request('permission_to_assign'));
+
+ $userSiteReg = userSite::UpdateOrCreate([
+        'sys_user_id'=>request('user_id'),
+        'site_id'=>request('permission_to_assign'),
+    ],
+    [
+        'status'=>'Active',
+        'user_id'=>auth()->id()
+        ]);
+}
+
+         return redirect()->back()->with('success','Permission given to the user successefuly');
         }
-    }
+    
 
     /**
      * Display the specified resource.

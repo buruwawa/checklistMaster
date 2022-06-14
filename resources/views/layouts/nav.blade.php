@@ -84,6 +84,7 @@
         @role('Admin|Store|Account')
   <li class="nav-item
             {{ (request()->is('checklist/{id}')) ? 'active' : '' }}
+            {{ (request()->is('dashboard-checklist/{id}')) ? 'active' : '' }}
             ">
                 <a class="nav-link" data-toggle="collapse" href="#accordionChecklist" role="button"
                 aria-expanded="false" aria-controls="accordionChecklist">
@@ -96,11 +97,22 @@
 
                 <div class="collapse nav-collapse
                 {{ (request()->is('checklist/{id}')) ? 'show' : '' }}
+                  {{ (request()->is('dashboard-checklist/{id}')) ? 'show' : '' }}
                 " id="accordionChecklist" data-parent="#accordion">
                     <div id="accordion">
                         <ul class="nav flex-column">
 
-                              <li class="nav-item {{ (request()->is('checklist/{id}')) ? 'sub-active' : '' }}">
+                              <li class="nav-item {{ (request()->is('dashboard-checklist/{id}')) ? 'sub-active' : '' }}">
+                                <a href="/dashboard-checklist/{id}" class="nav-link sub-nav-link {{ (request()->is('dashboard-checklist/{id}')) ? 'active' : '' }}">
+                                    <span class="svg-icon nav-icon d-flex justify-content-center">
+                                        <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                          </svg>
+                                    </span>
+                                    <span class="nav-text" data-toggle="tooltip" data-placement="bottom" title="Assign Indicators to Metaname">Dashboard Checklist</span>
+                                </a>
+                         </li> 
+                               <li class="nav-item {{ (request()->is('checklist/{id}')) ? 'sub-active' : '' }}">
                                 <a href="/checklist/{id}" class="nav-link sub-nav-link {{ (request()->is('checklist/{id}')) ? 'active' : '' }}">
                                     <span class="svg-icon nav-icon d-flex justify-content-center">
                                         <svg xmlns="" width="10px" height="10px" fill="currentColor" class="bi bi-circle" viewBox="0 0 16 16">
@@ -109,8 +121,7 @@
                                     </span>
                                     <span class="nav-text" data-toggle="tooltip" data-placement="bottom" title="Assign Indicators to Metaname">Checklist</span>
                                 </a>
-                         </li> 
-                                                  
+                         </li>                       
 
                         </ul>
                     </div>

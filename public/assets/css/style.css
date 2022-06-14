@@ -13327,8 +13327,8 @@ div.equal:active {
 
 .header-fixed.subheader-enabled .subheader {
   position: fixed;
-  height: 44px;
-  top: 64px;
+  height: 0px;
+  top: 65px;
   right: 0;
   transition: all 0.2s ease-out;
   z-index: 95;
